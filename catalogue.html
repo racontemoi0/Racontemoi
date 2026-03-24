@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raconte-Moi — Catalogue</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #1A1040;
+  --ink-mid: #3D2E6B;
+  --ink-soft: #7B6FA0;
+  --purple: #6C3FD4;
+  --purple-light: #EDE6FF;
+  --purple-mid: #B39DEB;
+  --yellow: #FFD93D;
+  --yellow-light: #FFF8D6;
+  --coral: #FF6B6B;
+  --coral-light: #FFE8E8;
+  --mint: #4ECDC4;
+  --mint-light: #E0FAF8;
+  --white: #FFFFFF;
+  --cream: #FAFAF7;
+  --border: #EAE6F5;
+  --radius: 24px;
+  --radius-sm: 14px;
+  --radius-pill: 100px;
+  --shadow: 0 6px 32px rgba(108,63,212,0.12);
+  --shadow-lg: 0 16px 56px rgba(108,63,212,0.18);
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
+
+/* ── LANGUAGE BAR ── */
+.lang-bar {
+  background: var(--ink); padding: 8px 24px;
+  display: flex; justify-content: flex-end; align-items: center; gap: 6px;
+}
+.lang-btn {
+  padding: 4px 12px; border-radius: var(--radius-pill);
+  border: 1.5px solid rgba(255,255,255,0.2); background: transparent;
+  color: rgba(255,255,255,0.6); font-family: 'Nunito', sans-serif;
+  font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; letter-spacing: 0.5px;
+}
+.lang-btn.active { background: var(--yellow); border-color: var(--yellow); color: var(--ink); }
+.lang-btn:hover:not(.active) { color: white; border-color: rgba(255,255,255,0.5); }
+
+/* ── NAV ── */
+.nav {
+  background: var(--white); border-bottom: 2px solid var(--border);
+  padding: 0 40px; display: flex; align-items: center;
+  justify-content: space-between; height: 72px;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 16px rgba(108,63,212,0.07);
+}
+.nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.nav-logo-box {
+  width: 44px; height: 44px; background: var(--purple); border-radius: 14px;
+  display: flex; align-items: center; justify-content: center; font-size: 22px;
+  box-shadow: 0 4px 14px rgba(108,63,212,0.35);
+}
+.nav-wordmark { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 24px; color: var(--ink); letter-spacing: -0.3px; }
+.nav-wordmark span { color: var(--purple); }
+.nav-links { display: flex; align-items: center; gap: 4px; }
+.nav-link {
+  padding: 8px 16px; border-radius: var(--radius-pill); font-size: 14px;
+  font-weight: 700; color: var(--ink-soft); text-decoration: none; transition: all 0.18s;
+}
+.nav-link:hover { color: var(--purple); background: var(--purple-light); }
+.nav-link.active-page { color: var(--purple); background: var(--purple-light); }
+.nav-cta { background: var(--purple); color: var(--white) !important; box-shadow: 0 4px 14px rgba(108,63,212,0.30); }
+.nav-cta:hover { background: #5A30BC !important; transform: translateY(-1px); }
+@media (max-width: 700px) { .nav-links { display: none; } .nav { padding: 0 20px; } }
+
+/* ── PAGE HEADER ── */
+.page-header {
+  background: var(--white);
+  padding: 56px 40px 48px;
+  border-bottom: 2px solid var(--border);
+}
+.page-header .inner { max-width: 1200px; margin: 0 auto; }
+.breadcrumb {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 700; color: var(--ink-soft);
+  margin-bottom: 18px;
+}
+.breadcrumb a { color: var(--purple); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb span { opacity: 0.4; }
+
+.page-header h1 {
+  font-family: 'Baloo 2', cursive; font-weight: 800;
+  font-size: clamp(34px, 4vw, 52px); color: var(--ink);
+  line-height: 1.1; letter-spacing: -0.5px; margin-bottom: 12px;
+}
+.page-header h1 span { color: var(--purple); }
+.page-header p { font-size: 17px; color: var(--ink-soft); font-weight: 600; max-width: 520px; line-height: 1.6; }
+
+/* ── MAIN LAYOUT ── */
+.catalogue-layout {
+  max-width: 1200px; margin: 0 auto;
+  padding: 48px 40px 80px;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .catalogue-layout { grid-template-columns: 1fr; padding: 32px 20px 60px; }
+  .sidebar { display: none; }
+}
+
+/* ── SIDEBAR ── */
+.sidebar { position: sticky; top: 100px; }
+
+.sidebar-section { margin-bottom: 28px; }
+.sidebar-title {
+  font-size: 11px; font-weight: 800; color: var(--ink-soft);
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;
+}
+
+.sidebar-filters { display: flex; flex-direction: column; gap: 6px; }
+.sidebar-filter {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; border-radius: var(--radius-sm);
+  border: 2px solid var(--border); background: var(--white);
+  font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700;
+  color: var(--ink-soft); cursor: pointer; transition: all 0.18s; text-align: left;
+}
+.sidebar-filter:hover { border-color: var(--purple-mid); color: var(--purple); background: var(--purple-light); }
+.sidebar-filter.active { background: var(--purple); border-color: var(--purple); color: var(--white); }
+.filter-count {
+  font-size: 11px; font-weight: 800;
+  background: rgba(0,0,0,0.1); padding: 2px 7px;
+  border-radius: var(--radius-pill); min-width: 22px; text-align: center;
+}
+.sidebar-filter.active .filter-count { background: rgba(255,255,255,0.2); }
+
+.price-range { padding: 4px 0; }
+input[type=range] {
+  width: 100%; -webkit-appearance: none; height: 6px;
+  background: var(--border); border-radius: 3px;
+  outline: none; border: none; padding: 0; cursor: pointer; margin: 8px 0;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 20px; height: 20px;
+  background: var(--purple); border-radius: 50%;
+  border: 3px solid var(--white); box-shadow: 0 2px 8px rgba(108,63,212,0.3); cursor: pointer;
+}
+.price-labels { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--ink-soft); }
+
+.sort-select {
+  width: 100%; padding: 10px 14px; border-radius: var(--radius-sm);
+  border: 2px solid var(--border); background: var(--white);
+  font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700;
+  color: var(--ink); outline: none; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238B8AB0' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px; -webkit-appearance: none;
+}
+.sort-select:focus { border-color: var(--purple); }
+
+/* ── MAIN CONTENT ── */
+.catalogue-main {}
+
+.toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 28px; flex-wrap: wrap; gap: 12px;
+}
+.toolbar-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.results-count { font-size: 14px; font-weight: 700; color: var(--ink-soft); }
+.results-count strong { color: var(--ink); }
+
+.mobile-filter-btn {
+  display: none; align-items: center; gap: 6px;
+  padding: 9px 16px; border-radius: var(--radius-pill);
+  border: 2px solid var(--border); background: var(--white);
+  font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
+  color: var(--ink-soft); cursor: pointer;
+}
+@media (max-width: 900px) { .mobile-filter-btn { display: flex; } }
+
+.view-toggle { display: flex; gap: 4px; }
+.view-btn {
+  width: 36px; height: 36px; border-radius: var(--radius-sm);
+  border: 2px solid var(--border); background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.18s; font-size: 14px;
+}
+.view-btn.active { background: var(--purple); border-color: var(--purple); color: var(--white); }
+
+/* CHIP TAGS */
+.active-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.active-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border-radius: var(--radius-pill);
+  background: var(--purple-light); color: var(--purple);
+  font-size: 12px; font-weight: 800; border: 1.5px solid var(--purple-mid);
+}
+.active-tag button { background: none; border: none; cursor: pointer; color: var(--purple); font-size: 13px; padding: 0; line-height: 1; }
+
+/* ── PRODUCTS GRID ── */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 22px;
+}
+.products-grid.list-view { grid-template-columns: 1fr; }
+
+/* PRODUCT CARD */
+.product-card {
+  background: var(--white); border: 2px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  transition: all 0.25s; cursor: pointer;
+}
+.product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); border-color: var(--purple-mid); }
+
+.product-card.custom-card {
+  border: 2px solid transparent;
+  background: linear-gradient(var(--white), var(--white)) padding-box,
+              linear-gradient(135deg, var(--purple), var(--coral), var(--yellow)) border-box;
+}
+.product-card.custom-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-6px); }
+
+.product-thumb {
+  height: 210px; display: flex; align-items: center;
+  justify-content: center; position: relative; overflow: hidden;
+}
+.product-thumb img {
+  width: 100%; height: 100%; object-fit: cover;
+  position: absolute; inset: 0; transition: transform 0.4s ease;
+}
+.product-card:hover .product-thumb img { transform: scale(1.05); }
+.product-thumb .emoji-placeholder { font-size: 72px; z-index: 1; }
+
+.bg-purple { background: linear-gradient(135deg, var(--purple-light), #D4BFFF); }
+.bg-yellow { background: linear-gradient(135deg, var(--yellow-light), #FFE580); }
+.bg-coral  { background: linear-gradient(135deg, var(--coral-light), #FFCFCF); }
+.bg-mint   { background: linear-gradient(135deg, var(--mint-light), #B2F5F1); }
+.bg-mixed  { background: linear-gradient(135deg, #E8F4FF, #D4EEFF); }
+.bg-rose   { background: linear-gradient(135deg, #FFE4F0, #FFBBD8); }
+
+.product-badge {
+  position: absolute; top: 12px; left: 12px;
+  padding: 4px 10px; border-radius: var(--radius-pill);
+  font-size: 10px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.5px; z-index: 2;
+}
+.badge-new  { background: var(--coral); color: var(--white); }
+.badge-pop  { background: var(--yellow); color: var(--ink); }
+.badge-gift { background: var(--mint); color: var(--ink); }
+.badge-promo { background: var(--purple); color: var(--white); }
+
+.product-card { display: flex; flex-direction: column; }
+.product-info { padding: 20px; display: flex; flex-direction: column; flex: 1; }
+.product-title { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 16px; color: var(--ink); margin-bottom: 5px; line-height: 1.2; }
+.product-desc { font-size: 13px; color: var(--ink-soft); font-weight: 600; line-height: 1.55; margin-bottom: 16px; flex: 1; }
+.product-footer { display: flex; align-items: stretch; flex-direction: column; gap: 8px; margin-top: auto; }
+.product-price { font-family: 'Baloo 2', cursive; font-size: 20px; font-weight: 800; color: var(--purple); }
+.product-price-old { font-size: 13px; color: var(--ink-soft); text-decoration: line-through; margin-left: 4px; }
+
+.btn-card {
+  padding: 9px 14px; border-radius: var(--radius-pill);
+  background: var(--purple); color: var(--white);
+  font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800;
+  border: none; cursor: pointer; transition: all 0.18s;
+  text-decoration: none; display: flex; align-items: center; justify-content: center; width: 100%;
+}
+.btn-card:hover { background: #5A30BC; transform: translateY(-1px); }
+.btn-card-order {
+  padding: 9px 14px; border-radius: var(--radius-pill);
+  background: var(--white); color: var(--purple);
+  font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800;
+  border: 2px solid var(--purple); cursor: pointer; transition: all 0.18s;
+  text-decoration: none; display: flex; align-items: center; justify-content: center; width: 100%;
+}
+.btn-card-order:hover { background: var(--purple); color: var(--white); transform: translateY(-1px); }
+
+/* LIST VIEW */
+.products-grid.list-view .product-card {
+  display: grid; grid-template-columns: 200px 1fr;
+}
+.products-grid.list-view .product-thumb { height: 160px; }
+.products-grid.list-view .product-info { display: flex; flex-direction: column; justify-content: center; }
+
+/* ── EMPTY STATE ── */
+.empty-state { text-align: center; padding: 80px 20px; grid-column: 1/-1; }
+.empty-state .empty-emoji { font-size: 56px; margin-bottom: 16px; display: block; }
+.empty-state h3 { font-family: 'Baloo 2', cursive; font-size: 22px; color: var(--ink); margin-bottom: 8px; }
+.empty-state p { font-size: 15px; color: var(--ink-soft); font-weight: 600; }
+
+/* ── PRODUCT MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(26,16,64,0.6);
+  z-index: 200; display: flex; align-items: center; justify-content: center;
+  padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.25s;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: var(--white); border-radius: var(--radius);
+  max-width: 680px; width: 100%; max-height: 90vh; overflow-y: auto;
+  transform: translateY(24px) scale(0.97); transition: all 0.3s cubic-bezier(0.34,1.2,0.64,1);
+  box-shadow: var(--shadow-lg);
+}
+.modal-overlay.open .modal { transform: translateY(0) scale(1); }
+
+.modal-top-bar { height: 5px; background: linear-gradient(90deg, var(--purple), var(--coral), var(--yellow)); }
+
+.modal-thumb {
+  height: 260px; display: flex; align-items: center;
+  justify-content: center; font-size: 96px; position: relative; overflow: hidden;
+}
+.modal-thumb img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+.modal-thumb .m-emoji { z-index: 1; }
+
+.modal-body { padding: 32px; }
+.modal-badge-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+.modal-title { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 28px; color: var(--ink); margin-bottom: 8px; line-height: 1.15; }
+.modal-desc { font-size: 15px; color: var(--ink-soft); font-weight: 600; line-height: 1.7; margin-bottom: 24px; }
+
+.modal-details { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+.detail-item { background: var(--cream); border-radius: var(--radius-sm); padding: 14px; }
+.detail-label { font-size: 11px; font-weight: 800; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.detail-val { font-size: 14px; font-weight: 700; color: var(--ink); }
+
+.modal-footer { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.modal-price { font-family: 'Baloo 2', cursive; font-size: 32px; font-weight: 800; color: var(--purple); }
+.btn-modal-cta {
+  flex: 1; padding: 15px 24px; border-radius: var(--radius-pill);
+  background: var(--purple); color: var(--white);
+  font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 800;
+  border: none; cursor: pointer; transition: all 0.2s;
+  box-shadow: 0 5px 20px rgba(108,63,212,0.30);
+}
+.btn-modal-cta:hover { background: #5A30BC; transform: translateY(-2px); }
+.btn-modal-close {
+  padding: 15px 20px; border-radius: var(--radius-pill);
+  border: 2px solid var(--border); background: var(--white);
+  font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800;
+  color: var(--ink-soft); cursor: pointer; transition: all 0.18s;
+}
+.btn-modal-close:hover { border-color: var(--purple-mid); color: var(--purple); }
+
+/* ── CTA BANNER ── */
+.cta-banner {
+  background: var(--purple); border-radius: var(--radius);
+  padding: 40px; text-align: center; margin-top: 48px;
+  position: relative; overflow: hidden;
+}
+.cta-banner::before {
+  content: '✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦';
+  position: absolute; bottom: 10px; right: 20px;
+  font-size: 14px; color: rgba(255,255,255,0.10); letter-spacing: 6px;
+}
+.cta-banner h3 { font-family: 'Baloo 2', cursive; font-size: 26px; font-weight: 800; color: var(--white); margin-bottom: 8px; }
+.cta-banner p { font-size: 15px; color: rgba(255,255,255,0.75); font-weight: 600; margin-bottom: 22px; }
+.btn-white {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px; border-radius: var(--radius-pill);
+  background: var(--white); color: var(--purple);
+  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px;
+  border: none; cursor: pointer; transition: all 0.2s;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15); text-decoration: none;
+}
+.btn-white:hover { background: var(--yellow); color: var(--ink); transform: translateY(-2px); }
+
+/* ── FOOTER ── */
+footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.08); padding: 60px 40px 32px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
+@media (max-width: 800px) { .footer-top { grid-template-columns: 1fr 1fr; } }
+.footer-brand .nav-wordmark { font-size: 26px; color: var(--white); }
+.footer-brand .nav-wordmark span { color: var(--yellow); }
+.footer-tagline { font-size: 14px; color: rgba(255,255,255,0.4); font-weight: 600; line-height: 1.6; margin-top: 10px; max-width: 240px; }
+.footer-col h4 { font-family: 'Baloo 2', cursive; font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+.footer-col a { display: block; font-size: 14px; color: rgba(255,255,255,0.4); font-weight: 600; text-decoration: none; margin-bottom: 10px; transition: color 0.2s; }
+.footer-col a:hover { color: var(--yellow); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap; gap: 12px; }
+.footer-copy { font-size: 13px; color: rgba(255,255,255,0.3); font-weight: 600; }
+
+/* REVEAL ANIMATION — always visible */
+.reveal { opacity: 1; transform: none; }
+
+/* ── STICKER GALLERY ── */
+.sticker-overlay {
+  position: fixed; inset: 0; background: rgba(10,6,30,0.95);
+  z-index: 300; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.25s;
+  padding: 20px;
+}
+.sticker-overlay.open { opacity: 1; pointer-events: all; }
+.sticker-header {
+  position: fixed; top: 0; left: 0; right: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 24px;
+  background: linear-gradient(to bottom, rgba(10,6,30,0.9), transparent);
+  z-index: 10;
+}
+.sticker-title {
+  font-family: 'Baloo 2', cursive; font-size: 16px;
+  font-weight: 800; color: rgba(255,255,255,0.9);
+}
+.sticker-close {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.2);
+  color: var(--white); font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+}
+.sticker-close:hover { background: rgba(255,255,255,0.2); }
+.sticker-body {
+  width: 100%; height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 70px 60px 80px;
+}
+.sticker-img-wrap {
+  max-width: min(700px, 90vw); max-height: calc(100vh - 160px);
+  border-radius: 18px; overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+  display: flex; align-items: center; justify-content: center;
+}
+.sticker-img-wrap img {
+  max-width: 100%; max-height: calc(100vh - 160px);
+  width: auto; height: auto; display: block;
+  object-fit: contain; transition: opacity 0.15s ease;
+}
+.sticker-nav-btn {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  width: 48px; height: 48px; border-radius: 50%;
+  background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.2);
+  color: var(--white); font-size: 20px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; z-index: 10;
+}
+.sticker-nav-btn:hover { background: var(--purple); border-color: var(--purple); }
+.sticker-nav-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+.sticker-nav-btn:disabled:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+#stickerPrev { left: 16px; }
+#stickerNext { right: 16px; }
+.sticker-footer {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: 16px 24px 24px;
+  background: linear-gradient(to top, rgba(10,6,30,0.9), transparent);
+}
+.sticker-counter { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.5); }
+@media (max-width: 600px) {
+  .sticker-body { padding: 60px 52px 90px; }
+  .sticker-nav-btn { width: 38px; height: 38px; font-size: 16px; }
+  #stickerPrev { left: 6px; }
+  #stickerNext { right: 6px; }
+}
+
+/* ── BOOK READER ── */
+.reader-overlay {
+  position: fixed; inset: 0; background: rgba(10,6,30,0.97);
+  z-index: 300; display: flex; flex-direction: column;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+.reader-overlay.open { opacity: 1; pointer-events: all; }
+.reader-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 24px; flex-shrink: 0;
+  background: rgba(10,6,30,0.95); border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.reader-title {
+  font-family: 'Baloo 2', cursive; font-size: 16px;
+  font-weight: 800; color: rgba(255,255,255,0.9);
+}
+.reader-close {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.2);
+  color: var(--white); font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+}
+.reader-close:hover { background: rgba(255,255,255,0.2); }
+
+/* Carousel */
+.reader-carousel {
+  flex: 1; display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.reader-carousel::-webkit-scrollbar { display: none; }
+.reader-slide {
+  flex-shrink: 0; width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px 70px; scroll-snap-align: start;
+}
+.reader-page-img {
+  max-height: calc(100vh - 160px); max-width: 100%; width: auto;
+  border-radius: 10px; box-shadow: 0 12px 48px rgba(0,0,0,0.7);
+  object-fit: contain;
+}
+.reader-nav-btn {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,0.12); border: 1.5px solid rgba(255,255,255,0.2);
+  color: var(--white); font-size: 20px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; z-index: 10;
+}
+.reader-nav-btn:hover { background: var(--purple); border-color: var(--purple); }
+.reader-nav-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+.reader-nav-btn:disabled:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.2); }
+#readerPrev { left: 10px; }
+#readerNext { right: 10px; }
+
+.reader-footer {
+  display: flex; align-items: center; justify-content: center; gap: 20px;
+  padding: 12px 24px; flex-shrink: 0;
+  background: rgba(10,6,30,0.95); border-top: 1px solid rgba(255,255,255,0.08);
+  flex-wrap: wrap;
+}
+.reader-dots { display: flex; gap: 6px; }
+.reader-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255,255,255,0.2); cursor: pointer; transition: all 0.2s; border: none;
+}
+.reader-dot.active { background: var(--purple); transform: scale(1.5); }
+.reader-order-btn {
+  padding: 10px 24px; border-radius: var(--radius-pill);
+  background: var(--purple); color: var(--white);
+  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 14px;
+  border: none; cursor: pointer; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 6px;
+  box-shadow: 0 4px 16px rgba(108,63,212,0.4); transition: all 0.2s;
+}
+.reader-order-btn:hover { background: #5A30BC; transform: translateY(-1px); }
+@media (max-width: 600px) {
+  .reader-carousel { padding: 16px 40px; }
+  #readerPrev { left: 2px; } #readerNext { right: 2px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- LANGUAGE BAR -->
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('fr')" id="btnFr">🇫🇷 FR</button>
+  <button class="lang-btn" onclick="setLang('en')" id="btnEn">🇬🇧 EN</button>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-logo-box">📖</div>
+    <div class="nav-wordmark">Raconte<span>-Moi</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link" data-fr="Accueil" data-en="Home">Accueil</a>
+    <a href="catalogue.html" class="nav-link active-page" data-fr="Catalogue" data-en="Catalogue">Catalogue</a>
+    <a href="index.html#how" class="nav-link" data-fr="Comment ça marche" data-en="How it works">Comment ça marche</a>
+    <a href="commande.html" class="nav-link nav-cta" data-fr="Commander ✨" data-en="Order Now ✨">Commander ✨</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="inner reveal">
+    <div class="breadcrumb">
+      <a href="index.html" data-fr="Accueil" data-en="Home">Accueil</a>
+      <span>›</span>
+      <span data-fr="Catalogue" data-en="Catalogue">Catalogue</span>
+    </div>
+    <h1 data-fr="Notre <span>Catalogue</span>" data-en="Our <span>Catalogue</span>">Notre <span>Catalogue</span></h1>
+    <p data-fr="Des créations uniques pour chaque enfant — histoires, stickers, coffrets et modèles." data-en="Unique creations for every child — stories, stickers, bundles and templates.">
+      Des créations uniques pour chaque enfant — histoires, stickers, coffrets et modèles.
+    </p>
+  </div>
+</div>
+
+<!-- CATALOGUE LAYOUT -->
+<div class="catalogue-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="sidebar-section">
+      <div class="sidebar-title" data-fr="Catégorie" data-en="Category">Catégorie</div>
+      <div class="sidebar-filters">
+        <button class="sidebar-filter active" onclick="filter('all',this)" data-fr="Tout voir" data-en="View all">
+          <span data-fr="Tout voir" data-en="View all">Tout voir</span>
+          <span class="filter-count">6</span>
+        </button>
+        <button class="sidebar-filter" onclick="filter('story',this)">
+          <span data-fr="📚 Histoires" data-en="📚 Stories">📚 Histoires</span>
+          <span class="filter-count">4</span>
+        </button>
+        <button class="sidebar-filter" onclick="filter('sticker',this)">
+          <span data-fr="🌟 Stickers" data-en="🌟 Stickers">🌟 Stickers</span>
+          <span class="filter-count">1</span>
+        </button>
+        <button class="sidebar-filter" onclick="filter('bundle',this)">
+          <span data-fr="🎁 Coffrets" data-en="🎁 Bundles">🎁 Coffrets</span>
+          <span class="filter-count">1</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title" data-fr="Trier par" data-en="Sort by">Trier par</div>
+      <select class="sort-select" onchange="sortProducts(this.value)" id="sortSelect">
+        <option value="default" data-fr="Par défaut" data-en="Default">Par défaut</option>
+        <option value="price-asc" data-fr="Prix croissant" data-en="Price: low to high">Prix croissant</option>
+        <option value="price-desc" data-fr="Prix décroissant" data-en="Price: high to low">Prix décroissant</option>
+        <option value="name" data-fr="Alphabétique" data-en="Alphabetical">Alphabétique</option>
+      </select>
+    </div>
+
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="catalogue-main">
+
+    <!-- TOOLBAR -->
+    <div class="toolbar reveal">
+      <div class="toolbar-left">
+        <button class="mobile-filter-btn">⚙️ <span data-fr="Filtres" data-en="Filters">Filtres</span></button>
+        <div class="active-tags" id="activeTags"></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span class="results-count"><strong id="resultCount">6</strong> <span data-fr="produits" data-en="products">produits</span></span>
+        <div class="view-toggle">
+          <button class="view-btn active" onclick="setView('grid', this)" title="Grid">⊞</button>
+          <button class="view-btn" onclick="setView('list', this)" title="List">☰</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCTS -->
+    <div class="products-grid" id="productsGrid">
+
+      <!-- === REPLACE src="images/..." WITH YOUR OWN PHOTOS === -->
+
+      <div class="product-card reveal" data-cat="story" data-price="39" data-name="Sofia et la Lanterne du Courage" onclick="openReader(0)">
+        <div class="product-thumb bg-purple" id="thumb0" style="position:relative;overflow:hidden;">
+          <div class="product-badge badge-pop" data-fr="Exemple réel" data-en="Real example">Exemple réel</div>
+          <img src="images/book-sofia-lanterne.jpg" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+        </div>
+        <div class="product-info">
+          <div class="product-title" data-fr="Sofia et la Lanterne du Courage" data-en="Sofia and the Lantern of Courage">Sofia et la Lanterne du Courage</div>
+          <div class="product-desc" data-fr="Une histoire de courage, de famille et de forêt enchantée. Sofia apprend que le vrai courage, c'est faire un petit pas même quand on a peur." data-en="A story of courage, family and enchanted forest. Sofia learns that true courage means taking a small step even when afraid.">Une histoire de courage, de famille et de forêt enchantée.</div>
+          <div class="product-footer">
+            <button class="btn-card" onclick="event.stopPropagation();openReader(0)" data-fr="📖 Lire un extrait" data-en="📖 Read a preview">📖 Lire un extrait</button>
+            <a href="commande-directe.html?book=lanterne" class="btn-card-order" onclick="event.stopPropagation()" data-fr="Commander" data-en="Order">Commander</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal" data-cat="story" data-price="39" data-name="Sofia et l'Hibou Vert" onclick="openReader(1)">
+        <div class="product-thumb bg-mint" id="thumb1" style="position:relative;overflow:hidden;">
+          <div class="product-badge badge-new" data-fr="Exemple réel" data-en="Real example">Exemple réel</div>
+          <img src="images/book-sofia-hibou.jpg" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+        </div>
+        <div class="product-info">
+          <div class="product-title" data-fr="Sofia et l'Hibou Vert" data-en="Sofia and the Green Owl">Sofia et l'Hibou Vert</div>
+          <div class="product-desc" data-fr="Une histoire d'amitié, d'entraide et de mots magiques. Sofia aide un petit hibou à retrouver ses mots en français." data-en="A story of friendship, helping others and magical words. Sofia helps a little owl find his French words again.">Une histoire d'amitié, d'entraide et de mots magiques.</div>
+          <div class="product-footer">
+            <button class="btn-card" onclick="event.stopPropagation();openReader(1)" data-fr="📖 Lire un extrait" data-en="📖 Read a preview">📖 Lire un extrait</button>
+            <a href="commande-directe.html?book=hibou" class="btn-card-order" onclick="event.stopPropagation()" data-fr="Commander" data-en="Order">Commander</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal" data-cat="story" data-price="39" data-name="Adam et la Fée Magique" onclick="openReader(2)">
+        <div class="product-thumb bg-coral" style="position:relative;overflow:hidden;">
+          <img src="images/book-adam.jpg" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+        </div>
+        <div class="product-info">
+          <div class="product-title" data-fr="Adam et la Fée Magique" data-en="Adam and the Magic Fairy">Adam et la Fée Magique</div>
+          <div class="product-desc" data-fr="Une histoire de magie, de famille et de courage inattendu." data-en="A story of magic, family and unexpected courage.">Une histoire de magie, de famille et de courage inattendu.</div>
+          <div class="product-footer">
+            <button class="btn-card" onclick="event.stopPropagation();openReader(2)" data-fr="📖 Lire un extrait" data-en="📖 Read a preview">📖 Lire un extrait</button>
+            <a href="commande-directe.html?book=adam" class="btn-card-order" onclick="event.stopPropagation()" data-fr="Commander" data-en="Order">Commander</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card custom-card reveal" data-cat="story" data-price="0" data-name="Histoire Sur Mesure" onclick="window.location='commande.html'">
+        <div class="product-thumb" style="background: linear-gradient(135deg, #f3e8ff, #ffe8f0, #fff8d6); position:relative; overflow:hidden;">
+          <div class="product-badge" style="position:absolute;top:12px;left:12px;background:linear-gradient(135deg,var(--purple),var(--coral));color:white;padding:4px 10px;border-radius:100px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;" data-fr="✨ Sur mesure" data-en="✨ Custom">✨ Sur mesure</div>
+          <span class="emoji-placeholder">🌟</span>
+        </div>
+        <div class="product-info">
+          <div class="product-title" data-fr="Votre Histoire Unique" data-en="Your Unique Story">Votre Histoire Unique</div>
+          <div class="product-desc" data-fr="Parlez-nous de votre enfant — ses passions, son caractère, ses rêves — et nous créons une histoire 100% taillée pour lui." data-en="Tell us about your child — their passions, personality, dreams — and we craft a story 100% made for them.">Parlez-nous de votre enfant — ses passions, son caractère, ses rêves — et nous créons une histoire 100% taillée pour lui.</div>
+          <div class="product-footer">
+            <button class="btn-card" style="background:linear-gradient(135deg,var(--purple),var(--coral));" data-fr="Créer mon histoire →" data-en="Create my story →">Créer mon histoire →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal" data-cat="sticker" data-price="14" data-name="Pack Stickers Magiques" onclick="openStickerGallery()">
+        <div class="product-thumb bg-yellow" style="position:relative;overflow:hidden;">
+          <div class="product-badge badge-pop" data-fr="Populaire" data-en="Popular">Populaire</div>
+          <img src="images/sticker1.jpeg" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+        </div>
+        <div class="product-info">
+          <div class="product-title" data-fr="Pack Stickers Magiques" data-en="Magic Sticker Pack">Pack Stickers Magiques</div>
+          <div class="product-desc" data-fr="16 stickers personnalisés avec le prénom de votre enfant. Parfaits pour cahiers et cartables." data-en="16 personalised stickers with your child's name. Perfect for notebooks and bags.">16 stickers personnalisés avec le prénom de votre enfant.</div>
+          <div class="product-footer">
+            <button class="btn-card" data-fr="Voir +" data-en="See more">Voir +</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal" data-cat="bundle" data-price="59" data-name="Coffret Cadeau Complet" onclick="openModal(5)">
+        <div class="product-thumb bg-rose">
+          <div class="product-badge badge-gift" data-fr="Cadeau ❤️" data-en="Gift ❤️">Cadeau ❤️</div>
+          <!-- <img src="images/coffret.jpg"> -->
+          <span class="emoji-placeholder">🎁</span>
+        </div>
+        <div class="product-info">
+          <div class="product-title" data-fr="Coffret Cadeau Complet" data-en="Complete Gift Bundle">Coffret Cadeau Complet</div>
+          <div class="product-desc" data-fr="Livre personnalisé + pack stickers + carte cadeau manuscrite. L'idéal pour les anniversaires !" data-en="Personalised book + sticker pack + handwritten gift card. Perfect for birthdays!">Livre + stickers + carte cadeau. L'idéal pour les anniversaires !</div>
+          <div class="product-footer">
+            <button class="btn-card" data-fr="Voir +" data-en="See more">Voir +</button>
+          </div>
+        </div>
+      </div>
+
+
+    </div><!-- /products-grid -->
+
+    <!-- CTA BANNER -->
+    <div class="cta-banner reveal">
+      <h3 data-fr="Vous ne trouvez pas ce que vous cherchez ?" data-en="Can't find what you're looking for?">Vous ne trouvez pas ce que vous cherchez ?</h3>
+      <p data-fr="Je crée des histoires 100% sur mesure ! Dites-moi votre idée et je la réalise." data-en="I create 100% custom stories! Tell me your idea and I'll bring it to life.">Je crée des histoires 100% sur mesure ! Dites-moi votre idée et je la réalise.</p>
+      <a href="commande.html" class="btn-white">
+        <span data-fr="Créer une histoire unique ✨" data-en="Create a unique story ✨">Créer une histoire unique ✨</span>
+      </a>
+    </div>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-wordmark">Raconte<span>-Moi</span></div>
+        <p class="footer-tagline" data-fr="Des histoires personnalisées qui font rêver les enfants et sourire les parents." data-en="Personalised stories that make children dream and parents smile.">Des histoires personnalisées qui font rêver les enfants et sourire les parents.</p>
+      </div>
+      <div class="footer-col">
+        <h4 data-fr="Navigation" data-en="Navigation">Navigation</h4>
+        <a href="index.html" data-fr="Accueil" data-en="Home">Accueil</a>
+        <a href="catalogue.html" data-fr="Catalogue" data-en="Catalogue">Catalogue</a>
+
+      </div>
+      <div class="footer-col">
+        <h4 data-fr="Produits" data-en="Products">Produits</h4>
+        <a href="#" data-fr="Histoires" data-en="Stories">Histoires</a>
+        <a href="#" data-fr="Stickers" data-en="Stickers">Stickers</a>
+        <a href="#" data-fr="Coffrets" data-en="Bundles">Coffrets</a>
+        <a href="#" data-fr="Modèles" data-en="Templates">Modèles</a>
+      </div>
+      <div class="footer-col">
+        <h4 data-fr="Contact" data-en="Contact">Contact</h4>
+        <a href="#"><span class="__cf_email__" data-cfemail="0c6e63626663797e4c7e6d6f63627869616365226a7e">[email&#160;protected]</span></a>
+        <a href="#">Instagram</a>
+
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy" data-fr="© 2026 Raconte-Moi. Tous droits réservés." data-en="© 2026 Raconte-Moi. All rights reserved.">© 2026 Raconte-Moi. Tous droits réservés.</div>
+      <div style="display:flex;gap:8px;">
+        <button class="lang-btn" onclick="setLang('fr')">🇫🇷 FR</button>
+        <button class="lang-btn" onclick="setLang('en')">🇬🇧 EN</button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- STICKER GALLERY OVERLAY -->
+<div class="sticker-overlay" id="stickerOverlay">
+  <div class="sticker-header">
+    <div class="sticker-title">✨ Aperçu — Pack Stickers Magiques</div>
+    <button class="sticker-close" onclick="closeStickerGallery()">✕</button>
+  </div>
+  <button class="sticker-nav-btn" id="stickerPrev" onclick="stickerNav(-1)">‹</button>
+  <div class="sticker-body">
+    <div class="sticker-img-wrap">
+      <img id="stickerImg" src="images/sticker1.jpeg" alt="Stickers magiques">
+    </div>
+  </div>
+  <button class="sticker-nav-btn" id="stickerNext" onclick="stickerNav(1)">›</button>
+  <div class="sticker-footer">
+    <div class="sticker-counter" id="stickerCounter">1 / 2</div>
+    <a href="commande.html" class="reader-order-btn">Commander ce pack ✨</a>
+  </div>
+</div>
+
+<!-- BOOK READER OVERLAY -->
+<div class="reader-overlay" id="readerOverlay">
+  <div class="reader-header">
+    <div class="reader-title" id="readerTitle"></div>
+    <button class="reader-close" onclick="closeReader()">✕</button>
+  </div>
+  <div style="position:relative;flex:1;display:flex;align-items:center;">
+    <button class="reader-nav-btn" id="readerPrev" onclick="readerNav(-1)">‹</button>
+    <div class="reader-carousel" id="readerCarousel"></div>
+    <button class="reader-nav-btn" id="readerNext" onclick="readerNav(1)">›</button>
+  </div>
+  <div class="reader-footer">
+    <div class="reader-dots" id="readerDots"></div>
+    <a id="readerOrderBtn" href="commande.html" class="reader-order-btn">Commander cette histoire ✨</a>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-top-bar"></div>
+    <div class="modal-thumb" id="modalThumb"></div>
+    <div class="modal-body">
+      <div class="modal-badge-row" id="modalBadges"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-details" id="modalDetails"></div>
+      <div class="modal-footer">
+        <div class="modal-price" id="modalPrice"></div>
+        <button class="btn-modal-cta" id="modalCta" onclick="window.location='commande.html'"></button>
+        <button class="btn-modal-close" id="modalClose" onclick="closeModal()"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script>
+
+// ── STICKER GALLERY ──
+var stickerImages = ['images/sticker1.jpeg', 'images/sticker4.jpeg', 'images/sticker5.jpeg'];
+var stickerIndex = 0;
+
+function openStickerGallery() {
+  stickerIndex = 0;
+  updateStickerSlide();
+  document.getElementById('stickerOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeStickerGallery() {
+  document.getElementById('stickerOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function stickerNav(dir) {
+  var next = stickerIndex + dir;
+  if (next < 0 || next >= stickerImages.length) return;
+  stickerIndex = next;
+  updateStickerSlide();
+}
+function updateStickerSlide() {
+  var img = document.getElementById('stickerImg');
+  img.style.opacity = '0';
+  setTimeout(function() {
+    img.src = stickerImages[stickerIndex];
+    img.style.opacity = '1';
+  }, 150);
+  document.getElementById('stickerCounter').textContent = (stickerIndex + 1) + ' / ' + stickerImages.length;
+  document.getElementById('stickerPrev').disabled = stickerIndex === 0;
+  document.getElementById('stickerNext').disabled = stickerIndex === stickerImages.length - 1;
+}
+
+// Swipe support
+var stickerTouchX = 0;
+document.getElementById('stickerOverlay').addEventListener('touchstart', function(e) {
+  stickerTouchX = e.touches[0].clientX;
+});
+document.getElementById('stickerOverlay').addEventListener('touchend', function(e) {
+  var diff = stickerTouchX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) stickerNav(diff > 0 ? 1 : -1);
+});
+document.getElementById('stickerOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeStickerGallery();
+});
+
+var bookPreviews = {
+  0: {
+    title: 'Sofia et la Lanterne du Courage',
+    order: 'commande-directe.html?book=lanterne',
+    pages: ['books/previews/lanterne-p1.jpg','books/previews/lanterne-p2.jpg','books/previews/lanterne-p3.jpg','books/previews/lanterne-p4.jpg']
+  },
+  1: {
+    title: "Sofia et l'Hibou Vert",
+    order: 'commande-directe.html?book=hibou',
+    pages: ['books/previews/hibou-p1.jpg','books/previews/hibou-p2.jpg','books/previews/hibou-p3.jpg','books/previews/hibou-p4.jpg']
+  },
+  2: {
+    title: 'Adam et la Fée Magique',
+    order: 'commande.html',
+    pages: ['books/previews/adam-p1.jpg','books/previews/adam-p2.jpg','books/previews/adam-p3.jpg','books/previews/adam-p4.jpg']
+  }
+};
+
+var readerCurrentPage = 0;
+var readerPages = [];
+
+function openReader(bookIndex) {
+  var book = bookPreviews[bookIndex];
+  if (!book) return;
+  readerPages = book.pages;
+  readerCurrentPage = 0;
+  document.getElementById('readerTitle').textContent = '📖 ' + book.title;
+  document.getElementById('readerOrderBtn').href = book.order;
+
+  // Build carousel slides
+  var carousel = document.getElementById('readerCarousel');
+  carousel.innerHTML = '';
+  book.pages.forEach(function(src, idx) {
+    var slide = document.createElement('div');
+    slide.className = 'reader-slide';
+    var img = document.createElement('img');
+    img.src = src; img.className = 'reader-page-img';
+    img.alt = 'Page ' + (idx+1);
+    slide.appendChild(img);
+    carousel.appendChild(slide);
+  });
+
+  // Build dots
+  var dots = document.getElementById('readerDots');
+  dots.innerHTML = '';
+  book.pages.forEach(function(_, idx) {
+    var d = document.createElement('button');
+    d.className = 'reader-dot' + (idx === 0 ? ' active' : '');
+    d.onclick = function() { scrollToPage(idx); };
+    dots.appendChild(d);
+  });
+
+  updateReaderNav();
+  document.getElementById('readerOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  carousel.scrollLeft = 0;
+}
+
+function scrollToPage(idx) {
+  var carousel = document.getElementById('readerCarousel');
+  var slides = carousel.querySelectorAll('.reader-slide');
+  if (!slides[idx]) return;
+  readerCurrentPage = idx;
+  carousel.scrollTo({ left: idx * carousel.offsetWidth, behavior: 'smooth' });
+  updateReaderNav();
+}
+
+function readerNav(dir) {
+  scrollToPage(readerCurrentPage + dir);
+}
+
+function updateReaderNav() {
+  document.getElementById('readerPrev').disabled = readerCurrentPage <= 0;
+  document.getElementById('readerNext').disabled = readerCurrentPage >= readerPages.length - 1;
+  document.querySelectorAll('.reader-dot').forEach(function(d, i) {
+    d.classList.toggle('active', i === readerCurrentPage);
+  });
+}
+
+// Update dots on scroll
+document.getElementById('readerCarousel').addEventListener('scroll', function() {
+  var idx = Math.round(this.scrollLeft / this.offsetWidth);
+  if (idx !== readerCurrentPage) { readerCurrentPage = idx; updateReaderNav(); }
+});
+
+function closeReader() {
+  document.getElementById('readerOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', function(e) {
+  if (!document.getElementById('readerOverlay').classList.contains('open')) return;
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') readerNav(1);
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   readerNav(-1);
+  if (e.key === 'Escape') { closeReader(); closeStickerGallery(); }
+});
+
+// Touch swipe support
+var touchStartX = 0;
+document.getElementById('readerOverlay').addEventListener('touchstart', function(e) {
+  touchStartX = e.touches[0].clientX;
+});
+document.getElementById('readerOverlay').addEventListener('touchend', function(e) {
+  var diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) readerNav(diff > 0 ? 1 : -1);
+});
+
+</script><script>
+let currentLang = 'fr';
+let currentFilter = 'all';
+
+// ── PRODUCT DATA ──
+const products = [
+  {
+    emoji: '🏮', bg: 'bg-purple',
+    fr: { title: "Sofia et la Lanterne du Courage", desc: "Sofia allait avoir cinq ans. Dans une forêt enchantée, elle surmonte ses peurs, aide une créature magique et sauve deux oisillons. Une histoire touchante sur le courage, la famille et la gentillesse.", badge: "Exemple réel", badgeClass: "badge-pop", age: "3–7 ans", pages: "24 pages", delay: "3–5 jours", cta: "Commander cette histoire" },
+    en: { title: "Sofia and the Lantern of Courage", desc: "Sofia is about to turn five. In an enchanted forest, she overcomes her fears, helps a magical creature and saves two baby birds. A touching story about courage, family and kindness.", badge: "Real example", badgeClass: "badge-pop", age: "3–7 years", pages: "24 pages", delay: "3–5 days", cta: "Order this story" },
+    price: "39€", img: "images/book-sofia-lanterne.jpg"
+  },
+  {
+    emoji: '🦉', bg: 'bg-mint',
+    fr: { title: "Sofia et l'Hibou Vert", desc: "Un matin doré, Sofia rencontre un petit hibou vert qui a perdu ses mots en français. Avec l'aide de sa famille, elle l'aide à retrouver sa langue et son chemin vers la Bibliothèque des Langues.", badge: "Exemple réel", badgeClass: "badge-new", age: "3–7 ans", pages: "20 pages", delay: "3–5 jours", cta: "Commander cette histoire" },
+    en: { title: "Sofia and the Green Owl", desc: "One golden morning, Sofia meets a little green owl who has lost his French words. With her family's help, she helps him find his language again and his way back to the Library of Languages.", badge: "Real example", badgeClass: "badge-new", age: "3–7 years", pages: "20 pages", delay: "3–5 days", cta: "Order this story" },
+    price: "39€", img: "images/book-sofia-hibou.jpg"
+  },
+  {
+    emoji: '✨', bg: 'bg-coral',
+    fr: { title: "Adam et la Fée Magique", desc: "Une nuit, une fée magique apparaît dans la chambre d'Adam. Entouré de sa famille, il découvre que le courage se cache dans les endroits les plus inattendus.", badge: null, badgeClass: null, age: "3–7 ans", pages: "20 pages", delay: "3–5 jours", cta: "Commander cette histoire" },
+    en: { title: "Adam and the Magic Fairy", desc: "One night, a magic fairy appears in Adam's room. Surrounded by his family, he discovers that courage hides in the most unexpected places.", badge: null, badgeClass: null, age: "3–7 years", pages: "20 pages", delay: "3–5 days", cta: "Order this story" },
+    price: "39€", img: "images/book-adam.jpg"
+  },
+  {
+    emoji: '🌟', bg: 'bg-mixed',
+    fr: { title: "Votre Histoire Unique", desc: "Parlez-nous de votre enfant — ses passions, son caractère, ses rêves — et nous créons une histoire 100% taillée pour lui.", badge: "Sur mesure", badgeClass: "badge-pop", age: "Tous âges", pages: "Sur mesure", delay: "5–7 jours", cta: "Créer mon histoire" },
+    en: { title: "Your Unique Story", desc: "Tell us about your child — their passions, personality, dreams — and we craft a story 100% made for them.", badge: "Custom", badgeClass: "badge-pop", age: "All ages", pages: "Custom", delay: "5–7 days", cta: "Create my story" },
+    price: "0", img: null
+  },
+  {
+    emoji: '🌟', bg: 'bg-yellow',
+    fr: { title: "Pack Stickers Magiques", desc: "16 stickers colorés et personnalisés avec le prénom de votre enfant. Parfaits pour décorer cahiers, cartables, bouteilles et bien plus.", badge: "Populaire", badgeClass: "badge-pop", age: "Tous âges", pages: "16 stickers", delay: "2–3 jours", cta: "Commander ce pack" },
+    en: { title: "Magic Sticker Pack", desc: "16 colourful personalised stickers with your child's name. Perfect for decorating notebooks, bags, bottles and much more.", badge: "Popular", badgeClass: "badge-pop", age: "All ages", pages: "16 stickers", delay: "2–3 days", cta: "Order this pack" },
+    price: "14€", img: null
+  },
+  {
+    emoji: '🎁', bg: 'bg-rose',
+    fr: { title: "Coffret Cadeau Complet", desc: "Le cadeau parfait clé en main ! Comprend un livre personnalisé, un pack stickers et une carte cadeau manuscrite dans un emballage soigné.", badge: "Cadeau ❤️", badgeClass: "badge-gift", age: "Tous âges", pages: "Livre + stickers + carte", delay: "4–6 jours", cta: "Commander ce coffret" },
+    en: { title: "Complete Gift Bundle", desc: "The perfect ready-made gift! Includes a personalised book, a sticker pack and a handwritten gift card in beautiful packaging.", badge: "Gift ❤️", badgeClass: "badge-gift", age: "All ages", pages: "Book + stickers + card", delay: "4–6 days", cta: "Order this bundle" },
+    price: "59€", img: null
+  },
+];
+
+// ── LANGUAGE ──
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('btnFr').classList.toggle('active', lang === 'fr');
+  document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+  document.querySelectorAll('[data-fr],[data-en]').forEach(el => {
+    const txt = el.getAttribute('data-' + lang);
+    if (txt) el.innerHTML = txt;
+  });
+  document.documentElement.lang = lang;
+}
+
+// ── FILTER ──
+function filter(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.sidebar-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+  updateActiveTags();
+}
+
+function applyFilters() {
+  const cards = document.querySelectorAll('#productsGrid .product-card');
+  let count = 0;
+  cards.forEach(card => {
+    const show = currentFilter === 'all' || card.dataset.cat === currentFilter;
+    card.style.display = show ? '' : 'none';
+    if (show) count++;
+  });
+  document.getElementById('resultCount').textContent = count;
+}
+
+function updateActiveTags() {
+  const tags = document.getElementById('activeTags');
+  tags.innerHTML = '';
+  if (currentFilter !== 'all') {
+    const labels = { story: {fr:'Histoires',en:'Stories'}, sticker: {fr:'Stickers',en:'Stickers'}, bundle: {fr:'Coffrets',en:'Bundles'}, template: {fr:'Modèles',en:'Templates'} };
+    const lbl = labels[currentFilter]?.[currentLang] || currentFilter;
+    tags.innerHTML = `<div class="active-tag">${lbl} <button onclick="clearFilter()">✕</button></div>`;
+  }
+}
+
+function clearFilter() {
+  currentFilter = 'all';
+  document.querySelectorAll('.sidebar-filter').forEach((b,i) => b.classList.toggle('active', i===0));
+  applyFilters();
+  updateActiveTags();
+}
+
+// ── SORT ──
+function sortProducts(val) {
+  const grid = document.getElementById('productsGrid');
+  const cards = [...grid.querySelectorAll('.product-card')];
+  cards.sort((a, b) => {
+    if (val === 'price-asc') return parseInt(a.dataset.price) - parseInt(b.dataset.price);
+    if (val === 'price-desc') return parseInt(b.dataset.price) - parseInt(a.dataset.price);
+    if (val === 'name') return a.dataset.name.localeCompare(b.dataset.name);
+    return 0;
+  });
+  cards.forEach(c => grid.appendChild(c));
+}
+
+// ── VIEW TOGGLE ──
+function setView(type, btn) {
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const grid = document.getElementById('productsGrid');
+  grid.classList.toggle('list-view', type === 'list');
+}
+
+// ── MODAL ──
+function openModal(i) {
+  const p = products[i];
+  const d = p[currentLang];
+  const overlay = document.getElementById('modalOverlay');
+
+  document.getElementById('modalThumb').innerHTML = p.img
+    ? `<img src="${p.img}"><span class="m-emoji" style="position:relative;z-index:2;">${p.emoji}</span>`
+    : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;" class="${p.bg}"><span class="m-emoji">${p.emoji}</span></div>`;
+
+  document.getElementById('modalBadges').innerHTML = d.badge ? `<span class="product-badge ${d.badgeClass}" style="position:static;">${d.badge}</span>` : '';
+  document.getElementById('modalTitle').textContent = d.title;
+  document.getElementById('modalDesc').textContent = d.desc;
+  document.getElementById('modalPrice').textContent = p.price;
+  document.getElementById('modalCta').textContent = d.cta;
+  document.getElementById('modalClose').textContent = currentLang === 'fr' ? 'Fermer' : 'Close';
+
+  const ageL = currentLang === 'fr' ? 'Âge' : 'Age';
+  const pagesL = currentLang === 'fr' ? 'Contenu' : 'Content';
+  const delayL = currentLang === 'fr' ? 'Délai' : 'Delivery';
+  const priceL = currentLang === 'fr' ? 'Prix' : 'Price';
+
+  document.getElementById('modalDetails').innerHTML = `
+    <div class="detail-item"><div class="detail-label">${ageL}</div><div class="detail-val">${d.age}</div></div>
+    <div class="detail-item"><div class="detail-label">${pagesL}</div><div class="detail-val">${d.pages}</div></div>
+    <div class="detail-item"><div class="detail-label">${delayL}</div><div class="detail-val">${d.delay}</div></div>
+    <div class="detail-item"><div class="detail-label">${priceL}</div><div class="detail-val">${p.price}</div></div>
+  `;
+
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modalOverlay') || e.currentTarget === document.getElementById('modalClose')) {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raconte-Moi — Commander</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --purple:#6C3FD4;--purple-l:#EDE6FF;--purple-m:#B39DEB;
+  --yellow:#FFD93D;--yellow-l:#FFF8D6;
+  --teal:#14B8A6;--teal-l:#CCFBF1;
+  --pink-l:#FCE7F3;--orange-l:#FFEDD5;
+  --ink:#1A1040;--ink-m:#3D2E6B;--ink-s:#7B6FA0;
+  --white:#fff;--off:#F8F7FF;--border:#EAE6F5;
+  --r:20px;--rs:12px;--rp:100px;
+  --shadow:0 4px 24px rgba(108,63,212,.10);
+}
+body{font-family:'Nunito',sans-serif;background:var(--off);color:var(--ink)}
+
+/* NAV */
+.nav{background:var(--white);border-bottom:2px solid var(--border);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:72px;position:sticky;top:0;z-index:100}
+.nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-logo{width:44px;height:44px;background:var(--purple);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.nav-name{font-family:'Baloo 2',cursive;font-weight:800;font-size:24px;color:var(--ink)}
+.nav-name span{color:var(--purple)}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-link{padding:8px 16px;border-radius:var(--rp);font-size:14px;font-weight:700;color:var(--ink-s);text-decoration:none;transition:all .18s}
+.nav-link:hover{color:var(--purple);background:var(--purple-l)}
+.nav-cta{background:var(--purple)!important;color:var(--white)!important}
+@media(max-width:700px){.nav-links{display:none}.nav{padding:0 20px}}
+
+/* HERO BAR */
+.hero-bar{background:var(--white);border-bottom:2px solid var(--border);padding:40px;text-align:center}
+.hero-bar h1{font-family:'Baloo 2',cursive;font-weight:800;font-size:clamp(26px,4vw,40px);color:var(--ink);margin-bottom:8px}
+.hero-bar h1 span{color:var(--purple)}
+.hero-bar p{font-size:16px;color:var(--ink-s);font-weight:600}
+
+/* MAIN */
+.main{max-width:660px;margin:0 auto;padding:40px 20px 80px}
+
+/* PROGRESS */
+.prog-wrap{margin-bottom:32px}
+.prog-track{height:8px;background:var(--border);border-radius:4px;margin-bottom:12px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--purple),#F472B6);border-radius:4px;transition:width .4s;width:0%}
+.prog-lbls{display:flex;justify-content:space-between}
+.prog-lbl{font-size:11px;font-weight:800;color:var(--ink-s);text-transform:uppercase;letter-spacing:.4px}
+.prog-lbl.active{color:var(--purple)}
+.prog-lbl.done{color:var(--teal)}
+
+/* CARD */
+.card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);border:2px solid var(--border);overflow:hidden}
+.card-bar{height:6px;background:linear-gradient(90deg,var(--purple),#F472B6,var(--yellow))}
+.card-body{padding:40px}
+@media(max-width:540px){.card-body{padding:24px 18px}}
+
+/* STEPS */
+.step{display:none}
+.step.active{display:block}
+
+/* STEP HEADER */
+.step-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:28px}
+.step-icon{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.ic-purple{background:var(--purple-l)}.ic-yellow{background:var(--yellow-l)}.ic-teal{background:var(--teal-l)}.ic-pink{background:var(--pink-l)}.ic-orange{background:var(--orange-l)}
+.step-head-txt h2{font-family:'Baloo 2',cursive;font-size:24px;color:var(--ink);margin-bottom:3px}
+.step-head-txt p{font-size:13px;color:var(--ink-s);font-weight:600}
+
+/* FIELDS */
+.field{margin-bottom:16px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:480px){.field-row{grid-template-columns:1fr}}
+label{display:block;font-size:12px;font-weight:800;color:var(--ink-m);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px}
+label .opt{font-weight:600;text-transform:none;font-size:11px;color:var(--ink-s);letter-spacing:0;margin-left:4px}
+input[type=text],input[type=email],input[type=number],select,textarea{width:100%;padding:12px 14px;background:var(--off);border:2px solid var(--border);border-radius:var(--rs);font-family:'Nunito',sans-serif;font-size:15px;font-weight:600;color:var(--ink);outline:none;transition:border-color .2s;-webkit-appearance:none}
+input:focus,select:focus,textarea:focus{border-color:var(--purple);background:var(--white)}
+input::placeholder,textarea::placeholder{color:var(--ink-s);font-weight:500}
+textarea{min-height:90px;resize:vertical;line-height:1.6}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237B6FA0' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer}
+.divider{height:2px;background:var(--border);border-radius:1px;margin:20px 0}
+
+/* CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border:2px solid var(--border);border-radius:var(--rp);background:var(--white);font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:var(--ink-s);cursor:pointer;user-select:none;transition:all .15s}
+.chip:hover{border-color:var(--purple-m);color:var(--purple);background:var(--purple-l)}
+.chip.on{background:var(--purple);border-color:var(--purple);color:var(--white)}
+
+/* SLIDER */
+input[type=range]{width:100%;-webkit-appearance:none;height:6px;background:var(--border);border-radius:3px;outline:none;border:none;padding:0;cursor:pointer;margin:8px 0}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;background:var(--purple);border-radius:50%;border:3px solid var(--white);box-shadow:0 2px 8px rgba(108,63,212,.3);cursor:pointer}
+.slider-lbls{display:flex;justify-content:space-between}
+.slider-lbls span{font-size:11px;font-weight:700;color:var(--ink-s)}
+.slider-val{text-align:center;margin-top:8px;font-family:'Baloo 2',cursive;font-size:17px;color:var(--purple)}
+
+/* CHAR CARD */
+.char-card{background:var(--off);border:2px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:12px}
+.char-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.char-label{display:flex;align-items:center;gap:8px;font-family:'Baloo 2',cursive;font-size:15px;color:var(--ink)}
+.badge{font-size:11px;font-weight:800;padding:3px 9px;border-radius:var(--rp);text-transform:uppercase}
+.badge-star{background:var(--yellow);color:var(--ink)}
+.badge-plus{background:var(--purple-l);color:var(--purple)}
+.btn-rm{background:none;border:none;cursor:pointer;font-size:16px;color:var(--ink-s);padding:4px;line-height:1}
+.btn-rm:hover{color:#EF4444}
+.btn-add{width:100%;padding:12px;background:var(--white);border:2px dashed var(--purple-m);border-radius:var(--rs);font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--purple);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:16px;transition:all .2s}
+.btn-add:hover{background:var(--purple-l);border-style:solid}
+
+/* UPLOAD */
+.upload-zone{border:2.5px dashed var(--purple-m);border-radius:var(--r);padding:32px 20px;text-align:center;cursor:pointer;background:var(--white);transition:all .2s;position:relative}
+.upload-zone:hover,.upload-zone.over{background:var(--purple-l);border-color:var(--purple)}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;border:none;padding:0;background:none}
+.upload-icon{font-size:38px;margin-bottom:8px;display:block}
+.upload-title{font-family:'Baloo 2',cursive;font-size:17px;color:var(--ink);margin-bottom:4px}
+.upload-sub{font-size:13px;color:var(--ink-s);font-weight:600}
+.file-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.file-chip{display:inline-flex;align-items:center;gap:6px;background:var(--teal-l);color:var(--teal);border-radius:var(--rp);padding:5px 11px;font-size:12px;font-weight:700}
+.file-chip .rm{background:none;border:none;cursor:pointer;color:var(--teal);font-size:13px;padding:0;opacity:.7}
+.file-chip .rm:hover{opacity:1}
+.tip-box{background:var(--yellow-l);border:2px solid var(--yellow);border-radius:var(--rs);padding:12px 16px;margin-top:14px}
+.tip-title{font-family:'Baloo 2',cursive;font-size:14px;color:var(--ink);margin-bottom:5px}
+.tip-box ul{list-style:none}
+.tip-box li{font-size:13px;color:var(--ink-m);font-weight:600;padding:2px 0}
+
+/* REVIEW */
+.review-block{border:2px solid var(--border);border-radius:var(--rs);overflow:hidden;margin-bottom:10px}
+.review-head{background:var(--off);padding:10px 14px;font-family:'Baloo 2',cursive;font-size:14px;color:var(--ink);border-bottom:2px solid var(--border)}
+.review-row{display:flex;justify-content:space-between;gap:10px;padding:8px 14px;border-bottom:1px solid var(--border)}
+.review-row:last-child{border-bottom:none}
+.rk{font-size:12px;font-weight:800;color:var(--ink-s);text-transform:uppercase;letter-spacing:.4px;min-width:90px}
+.rv{font-size:13px;font-weight:700;color:var(--ink);text-align:right;flex:1}
+.next-box{background:var(--purple-l);border:2px solid var(--purple-m);border-radius:var(--rs);padding:16px;margin-bottom:20px}
+.next-box-title{font-family:'Baloo 2',cursive;font-size:14px;color:var(--purple);margin-bottom:5px}
+.next-box p{font-size:13px;color:var(--ink-m);font-weight:600;line-height:1.6}
+
+/* NAV BUTTONS */
+.form-nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:22px;border-top:2px solid var(--border)}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:13px 24px;border-radius:var(--rp);font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;cursor:pointer;border:none;transition:all .2s}
+.btn-main{background:var(--purple);color:var(--white);box-shadow:0 4px 14px rgba(108,63,212,.25)}
+.btn-main:hover{background:#5A30BC;transform:translateY(-2px)}
+.btn-ghost{background:var(--white);color:var(--ink-m);border:2px solid var(--border)}
+.btn-ghost:hover{border-color:var(--purple-m);color:var(--purple)}
+.btn-success{background:var(--teal);color:var(--white);box-shadow:0 4px 14px rgba(20,184,166,.25)}
+.btn-success:hover{background:#0D9488;transform:translateY(-2px)}
+.btn-success:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+/* SUCCESS */
+.success-screen{display:none;text-align:center;padding:48px 20px 60px}
+.success-screen.show{display:block}
+.s-emoji{font-size:68px;display:block;margin-bottom:16px}
+.s-title{font-family:'Baloo 2',cursive;font-size:34px;color:var(--ink);margin-bottom:10px}
+.s-sub{font-size:16px;color:var(--ink-s);font-weight:600;max-width:380px;margin:0 auto 24px;line-height:1.6}
+.s-list{display:inline-flex;flex-direction:column;gap:10px;background:var(--white);border:2px solid var(--border);border-radius:var(--r);padding:22px 30px;text-align:left;box-shadow:var(--shadow)}
+.s-item{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;color:var(--ink-m)}
+.s-check{width:22px;height:22px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--white);flex-shrink:0}
+
+/* FOOTER */
+footer{background:var(--ink);padding:28px 40px;text-align:center}
+.f-logo{font-family:'Baloo 2',cursive;font-size:20px;color:var(--white);margin-bottom:6px}
+.f-logo span{color:var(--yellow)}
+.f-copy{font-size:12px;color:rgba(255,255,255,.3)}
+.f-copy a{color:rgba(255,255,255,.3);text-decoration:none}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-logo">📖</div>
+    <div class="nav-name">Raconte<span>-Moi</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Accueil</a>
+    <a href="catalogue.html" class="nav-link">Catalogue</a>
+
+    <a href="commande.html" class="nav-link nav-cta">Commander ✨</a>
+  </div>
+</nav>
+
+<div class="hero-bar">
+  <h1>Créons votre <span>histoire magique</span></h1>
+  <p>5 étapes simples · Réponse sous 3–5 jours ✨</p>
+</div>
+
+<main class="main">
+
+  <div class="prog-wrap" id="progWrap">
+    <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+    <div class="prog-lbls">
+      <span class="prog-lbl active" id="l0">À propos</span>
+      <span class="prog-lbl" id="l1">Histoire</span>
+      <span class="prog-lbl" id="l2">Personnages</span>
+      <span class="prog-lbl" id="l3">Photos</span>
+      <span class="prog-lbl" id="l4">Résumé</span>
+    </div>
+  </div>
+
+  <div class="card" id="formCard">
+    <div class="card-bar"></div>
+    <div class="card-body">
+
+      <!-- STEP 0 -->
+      <div class="step active" id="s0">
+        <div class="step-head">
+          <div class="step-icon ic-purple">👋</div>
+          <div class="step-head-txt"><h2>Parlez-moi de votre enfant</h2><p>Ces détails personnalisent chaque page de l'histoire !</p></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Votre prénom</label><input type="text" id="parentName" placeholder="ex: Sarah"></div>
+          <div class="field"><label>Votre email</label><input type="email" id="parentEmail" placeholder="vous@email.com"></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Prénom de l'enfant</label><input type="text" id="childName" placeholder="ex: Lina"></div>
+          <div class="field"><label>Âge de l'enfant</label><input type="number" id="childAge" placeholder="ex: 5" min="1" max="12"></div>
+        </div>
+        <div class="field"><label>C'est un cadeau ? <span class="opt">(optionnel)</span></label><input type="text" id="giftFor" placeholder="ex: Cadeau d'anniversaire pour mon neveu !"></div>
+        <div class="field"><label>Décrivez votre enfant</label><textarea id="childDesc" placeholder="Ses passions, jouets préférés, caractère, couleurs favorites… plus c'est détaillé, plus l'histoire sera unique !"></textarea></div>
+        <div class="form-nav">
+          <span></span>
+          <button type="button" class="btn btn-main" id="next0">L'Histoire →</button>
+        </div>
+      </div>
+
+      <!-- STEP 1 -->
+      <div class="step" id="s1">
+        <div class="step-head">
+          <div class="step-icon ic-yellow">🌟</div>
+          <div class="step-head-txt"><h2>L'Histoire</h2><p>Choisissez le monde de l'aventure !</p></div>
+        </div>
+        <div class="field">
+          <label>Thèmes <span class="opt">(plusieurs choix possibles)</span></label>
+          <div class="chips" id="themeChips">
+            <div class="chip">🗺️ Aventure</div>
+            <div class="chip">🤝 Amitié</div>
+            <div class="chip">✨ Magie</div>
+            <div class="chip">🦋 Animaux</div>
+            <div class="chip">🚀 Espace</div>
+            <div class="chip">🐠 Océan</div>
+            <div class="chip">💛 Gentillesse</div>
+            <div class="chip">🦁 Courage</div>
+            <div class="chip">🌿 Nature</div>
+            <div class="chip">🏰 Conte de fées</div>
+            <div class="chip">⚽ Sport</div>
+            <div class="chip">💪 Confiance en soi</div>
+            <div class="chip">🫶 Entraide</div>
+            <div class="chip" id="otherThemeChip">💭 Autre…</div>
+          </div>
+          <div class="field" id="otherThemeField" style="display:none;margin-top:10px">
+            <label>Précisez votre thème</label>
+            <input type="text" id="customTheme" placeholder="ex: Écologie, dépassement de soi…">
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="field">
+          <label>Langue de l'histoire</label>
+          <div class="chips" id="langChips">
+            <div class="chip on" data-lang="fr">🇫🇷 Français</div>
+            <div class="chip" data-lang="ar">🇸🇦 Arabe</div>
+            <div class="chip" data-lang="en">🇬🇧 Anglais</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="field">
+          <label>Décor</label>
+          <div class="chips" id="settingChips">
+            <div class="chip">🌲 Forêt Enchantée</div>
+            <div class="chip">🐙 Royaume Sous-marin</div>
+            <div class="chip">🪐 Espace</div>
+            <div class="chip">🏡 Village Magique</div>
+            <div class="chip">☁️ Pays des Nuages</div>
+            <div class="chip">🌴 Jungle</div>
+            <div class="chip" id="otherChip">💭 Autre…</div>
+          </div>
+        </div>
+        <div class="field" id="otherField" style="display:none">
+          <label>Décrivez votre décor</label>
+          <textarea id="customSetting" placeholder="Décrivez le monde que vous imaginez !" style="min-height:70px"></textarea>
+        </div>
+        <div class="divider"></div>
+        <div class="field">
+          <label>Longueur</label>
+          <input type="range" id="lenSlider" min="1" max="3" step="1" value="2">
+          <div class="slider-lbls"><span>Court (8–12 p.)</span><span>Moyen (16–20 p.)</span><span>Long (24–32 p.)</span></div>
+          <div class="slider-val" id="lenVal">Moyen — 16–20 pages</div>
+        </div>
+        <div class="field"><label>Notes supplémentaires <span class="opt">(optionnel)</span></label><textarea id="storyNotes" placeholder="ex: Elle adore les chats, merci d'en inclure un !" style="min-height:70px"></textarea></div>
+        <div class="form-nav">
+          <button type="button" class="btn btn-ghost" id="back1">← Retour</button>
+          <button type="button" class="btn btn-main" id="next1">Personnages →</button>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step" id="s2">
+        <div class="step-head">
+          <div class="step-icon ic-teal">🦸</div>
+          <div class="step-head-txt"><h2>Les Personnages</h2><p>Qui sera le héros de l'aventure ?</p></div>
+        </div>
+        <div class="char-card">
+          <div class="char-head">
+            <div class="char-label">⭐ Personnage Principal <span class="badge badge-star">Héros</span></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Prénom dans l'histoire</label><input type="text" id="heroName" placeholder="ex: Lina"></div>
+            <div class="field"><label>Âge dans l'histoire</label><input type="text" id="heroAge" placeholder="ex: 5"></div>
+          </div>
+          <div class="field"><label>Apparence & personnalité</label><textarea id="heroDesc" placeholder="ex: Cheveux bouclés, adore ses bottes violettes, très curieuse…" style="min-height:75px"></textarea></div>
+        </div>
+        <div id="extraChars"></div>
+        <button type="button" class="btn-add" id="addCharBtn">＋ Ajouter un personnage</button>
+        <div class="form-nav">
+          <button type="button" class="btn btn-ghost" id="back2">← Retour</button>
+          <button type="button" class="btn btn-main" id="next2">Photos →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step" id="s3">
+        <div class="step-head">
+          <div class="step-icon ic-pink">📸</div>
+          <div class="step-head-txt"><h2>Vos Photos</h2><p>Elles m'aident à capturer l'apparence de votre enfant !</p></div>
+        </div>
+        <div class="upload-zone" id="uploadZone">
+          <input type="file" id="photoInput" multiple accept="image/*">
+          <span class="upload-icon">🖼️</span>
+          <div class="upload-title">Déposez vos photos ici</div>
+          <div class="upload-sub">ou cliquez pour parcourir · JPG, PNG · Max 10 photos</div>
+        </div>
+        <div class="file-chips" id="fileList"></div>
+        <div class="tip-box">
+          <div class="tip-title">💡 Conseils photos</div>
+          <ul>
+            <li>📷 Une photo nette du visage est idéale</li>
+            <li>👗 Incluez ses tenues ou jouets préférés</li>
+            <li>🐾 Animaux de compagnie bienvenus !</li>
+          </ul>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;margin-top:12px;padding:12px 16px;background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:12px;">
+          <span style="font-size:18px;flex-shrink:0;">🔒</span>
+          <p style="font-size:13px;color:#166534;font-weight:600;line-height:1.55;margin:0;">Vos photos sont utilisées <strong>uniquement</strong> pour illustrer l'histoire de votre enfant. Elles ne sont jamais stockées, partagées ou utilisées à d'autres fins. Votre vie privée est notre priorité.</p>
+        </div>
+        <div class="field" style="margin-top:14px"><label>Notes photos <span class="opt">(optionnel)</span></label><textarea id="photoNotes" placeholder="ex: La 2ème photo montre son lapin préféré Bouboule — merci de l'inclure !" style="min-height:70px"></textarea></div>
+        <div class="form-nav">
+          <button type="button" class="btn btn-ghost" id="back3">← Retour</button>
+          <button type="button" class="btn btn-main" id="next3">Résumé →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step" id="s4">
+        <div class="step-head">
+          <div class="step-icon ic-orange">🔍</div>
+          <div class="step-head-txt"><h2>Vérifiez & Envoyez</h2><p>Tout est bon ? Vous pouvez revenir en arrière pour modifier.</p></div>
+        </div>
+        <div id="reviewArea"></div>
+        <div class="next-box">
+          <div class="next-box-title">🌈 Et ensuite ?</div>
+          <p>Je créerai votre histoire et vous enverrai un brouillon par email sous <strong>3–5 jours ouvrés</strong> pour validation !</p>
+        </div>
+        <div class="form-nav">
+          <button type="button" class="btn btn-ghost" id="back4">← Retour</button>
+          <button type="button" class="btn btn-success" id="submitBtn">✨ Envoyer ma commande !</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="successScreen">
+    <span class="s-emoji">🎉</span>
+    <div class="s-title">Commande envoyée !</div>
+    <p class="s-sub">Votre commande pour <strong id="successName"></strong> est bien reçue ! Je vous contacterai sous 3–5 jours.</p>
+    <div class="s-list">
+      <div class="s-item"><div class="s-check">✓</div>Email de confirmation en route</div>
+      <div class="s-item"><div class="s-check">✓</div>Création de l'histoire commence aujourd'hui</div>
+      <div class="s-item"><div class="s-check">✓</div>Je vous contacterai si j'ai des questions</div>
+      <div class="s-item"><div class="s-check">✓</div>Vous validerez avant la version finale</div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="f-logo">Raconte<span>-Moi</span></div>
+  <div class="f-copy">© 2026 Raconte-Moi · <a href="mailto:info.racontemoi@gmail.com">info.racontemoi@gmail.com</a></div>
+</footer>
+
+<script>
+var cur = 0;
+var charCount = 0;
+var files = [];
+var lenLabels = {1:'Court — 8–12 pages', 2:'Moyen — 16–20 pages', 3:'Long — 24–32 pages'};
+
+function go(n) {
+  document.getElementById('s' + cur).classList.remove('active');
+  cur = n;
+  document.getElementById('s' + cur).classList.add('active');
+  document.getElementById('progFill').style.width = (cur / 4 * 100) + '%';
+  for (var i = 0; i < 5; i++) {
+    var el = document.getElementById('l' + i);
+    el.className = 'prog-lbl' + (i < cur ? ' done' : i === cur ? ' active' : '');
+  }
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// Wire up nav buttons explicitly — no onclick attributes
+document.getElementById('next0').addEventListener('click', function() { go(1); });
+document.getElementById('back1').addEventListener('click', function() { go(0); });
+document.getElementById('next1').addEventListener('click', function() { go(2); });
+document.getElementById('back2').addEventListener('click', function() { go(1); });
+document.getElementById('next2').addEventListener('click', function() { go(3); });
+document.getElementById('back3').addEventListener('click', function() { go(2); });
+document.getElementById('next3').addEventListener('click', function() { buildReview(); go(4); });
+document.getElementById('back4').addEventListener('click', function() { go(3); });
+document.getElementById('submitBtn').addEventListener('click', function() { submitForm(); });
+
+// Slider
+document.getElementById('lenSlider').addEventListener('input', function() {
+  document.getElementById('lenVal').textContent = lenLabels[this.value];
+});
+
+// Single-select language chips
+document.querySelectorAll('#langChips .chip').forEach(function(c) {
+  c.addEventListener('click', function() {
+    document.querySelectorAll('#langChips .chip').forEach(function(x) { x.classList.remove('on'); });
+    this.classList.add('on');
+  });
+});
+
+// Multi-select chips (themes & settings)
+document.querySelectorAll('#themeChips .chip, #settingChips .chip').forEach(function(c) {
+  c.addEventListener('click', function() {
+    this.classList.toggle('on');
+    if (this.id === 'otherChip') {
+      document.getElementById('otherField').style.display = this.classList.contains('on') ? 'block' : 'none';
+    }
+    if (this.id === 'otherThemeChip') {
+      document.getElementById('otherThemeField').style.display = this.classList.contains('on') ? 'block' : 'none';
+    }
+  });
+});
+
+// Single-select name chips
+document.getElementById('nc0').addEventListener('click', function() { pickName(0); });
+document.getElementById('nc1').addEventListener('click', function() { pickName(1); });
+document.getElementById('nc2').addEventListener('click', function() { pickName(2); });
+
+function pickName(idx) {
+  for (var i = 0; i < 3; i++) {
+    document.getElementById('nc' + i).classList.remove('on');
+  }
+  document.getElementById('nc' + idx).classList.add('on');
+}
+
+// Add character
+document.getElementById('addCharBtn').addEventListener('click', function() {
+  charCount++;
+  var icons = ['🐰', '🦊', '🐸', '🐶', '🦄'];
+  var icon = icons[(charCount - 1) % icons.length];
+
+  var card = document.createElement('div');
+  card.className = 'char-card';
+
+  var head = document.createElement('div');
+  head.className = 'char-head';
+
+  var labelDiv = document.createElement('div');
+  labelDiv.className = 'char-label';
+  labelDiv.innerHTML = icon + ' Personnage ' + charCount + ' <span class="badge badge-plus">Secondaire</span>';
+
+  var rmBtn = document.createElement('button');
+  rmBtn.type = 'button';
+  rmBtn.className = 'btn-rm';
+  rmBtn.textContent = '✕';
+  rmBtn.addEventListener('click', function() { card.remove(); });
+
+  head.appendChild(labelDiv);
+  head.appendChild(rmBtn);
+
+  var rowDiv = document.createElement('div');
+  rowDiv.className = 'field-row';
+
+  var f1 = document.createElement('div');
+  f1.className = 'field';
+  f1.innerHTML = '<label>Prénom</label><input type="text" placeholder="ex: Teddy">';
+
+  var f2 = document.createElement('div');
+  f2.className = 'field';
+  f2.innerHTML = '<label>Type</label><select><option>Humain</option><option>Animal</option><option>Créature magique</option><option>Robot</option><option>Autre</option></select>';
+
+  rowDiv.appendChild(f1);
+  rowDiv.appendChild(f2);
+
+  var f3 = document.createElement('div');
+  f3.className = 'field';
+  f3.innerHTML = '<label>Description</label><textarea placeholder="Décrivez ce personnage…" style="min-height:65px"></textarea>';
+
+  card.appendChild(head);
+  card.appendChild(rowDiv);
+  card.appendChild(f3);
+
+  document.getElementById('extraChars').appendChild(card);
+});
+
+// Photo upload
+document.getElementById('photoInput').addEventListener('change', function() {
+  handleFiles(this.files);
+});
+
+function handleFiles(list) {
+  for (var i = 0; i < list.length; i++) {
+    var f = list[i];
+    if (!files.find(function(x) { return x.name === f.name; })) {
+      files.push(f);
+    }
+  }
+  renderFiles();
+}
+
+function renderFiles() {
+  var el = document.getElementById('fileList');
+  el.innerHTML = '';
+  for (var i = 0; i < files.length; i++) {
+    (function(idx, f) {
+      var chip = document.createElement('div');
+      chip.className = 'file-chip';
+
+      var span = document.createElement('span');
+      span.textContent = '📎 ' + f.name;
+
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'rm';
+      btn.textContent = '✕';
+      btn.addEventListener('click', function() {
+        files.splice(idx, 1);
+        renderFiles();
+      });
+
+      chip.appendChild(span);
+      chip.appendChild(btn);
+      el.appendChild(chip);
+    })(i, files[i]);
+  }
+}
+
+var uz = document.getElementById('uploadZone');
+uz.addEventListener('dragover', function(e) { e.preventDefault(); uz.classList.add('over'); });
+uz.addEventListener('dragleave', function() { uz.classList.remove('over'); });
+uz.addEventListener('drop', function(e) {
+  e.preventDefault();
+  uz.classList.remove('over');
+  handleFiles(e.dataTransfer.files);
+});
+
+// Helpers
+function gv(id) {
+  var el = document.getElementById(id);
+  return el ? (el.value || '').trim() || '—' : '—';
+}
+
+function getLang() {
+  var c = document.querySelector('#langChips .chip.on');
+  return c ? c.textContent.trim() : 'Français';
+}
+
+function getThemes() {
+  var r = [];
+  document.querySelectorAll('#themeChips .chip.on').forEach(function(c) {
+    if (c.id === 'otherThemeChip') {
+      var custom = (document.getElementById('customTheme').value || '').trim();
+      if (custom) r.push(custom);
+    } else {
+      r.push(c.textContent.trim());
+    }
+  });
+  return r.join(', ') || '—';
+}
+
+function getSettings() {
+  var r = [];
+  document.querySelectorAll('#settingChips .chip.on').forEach(function(c) { r.push(c.textContent.trim()); });
+  return r.join(', ') || '—';
+}
+
+function getNameChoice() {
+  for (var i = 0; i < 3; i++) {
+    if (document.getElementById('nc' + i).classList.contains('on')) {
+      return document.getElementById('nc' + i).textContent.trim();
+    }
+  }
+  return '—';
+}
+
+function buildReview() {
+  var lenV = document.getElementById('lenSlider').value;
+  var html = '';
+  html += blk('👋 À propos', [['Votre prénom', gv('parentName')], ['Email', gv('parentEmail')], ['Prénom enfant', gv('childName')], ['Âge enfant', gv('childAge')]]);
+  html += blk('🌟 Histoire', [['Langue', getLang()], ['Thèmes', getThemes()], ['Décor', getSettings()], ['Longueur', lenLabels[lenV]]]);
+  html += blk('🦸 Personnages', [['Héros', gv('heroName') !== '—' ? gv('heroName') : gv('childName')]]);
+  html += blk('📸 Photos', [['Photos', files.length > 0 ? files.length + ' photo(s)' : 'Aucune — pas de problème !']]);
+  document.getElementById('reviewArea').innerHTML = html;
+}
+
+function blk(title, rows) {
+  var rowsHtml = rows.map(function(r) {
+    return '<div class="review-row"><span class="rk">' + r[0] + '</span><span class="rv">' + r[1] + '</span></div>';
+  }).join('');
+  return '<div class="review-block"><div class="review-head">' + title + '</div>' + rowsHtml + '</div>';
+}
+
+function submitForm() {
+  var lenV = document.getElementById('lenSlider').value;
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Envoi en cours…';
+
+  var payload = {
+    _subject: 'Nouvelle commande — ' + gv('childName') + ' (' + gv('childAge') + ' ans)',
+    _replyto: gv('parentEmail'),
+    'Nom parent': gv('parentName'),
+    'Email': gv('parentEmail'),
+    'Prenom enfant': gv('childName'),
+    'Age enfant': gv('childAge'),
+    'Cadeau pour': gv('giftFor'),
+    'Description': gv('childDesc'),
+    'Langue': getLang(),
+    'Themes': getThemes(),
+    'Decor': getSettings(),
+    'Longueur': lenLabels[lenV],
+    'Notes histoire': gv('storyNotes'),
+    'Heros nom': gv('heroName'),
+    'Heros age': gv('heroAge'),
+    'Heros description': gv('heroDesc'),
+    'Prenom dans histoire': getNameChoice(),
+    'Surnom': gv('nickname'),
+    'Nombre de photos': files.length > 0 ? files.length + ' photo(s)' : 'Aucune',
+    'Notes photos': gv('photoNotes')
+  };
+
+  fetch('https://formspree.io/f/mlgpajbq', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    body: JSON.stringify(payload)
+  }).then(function(res) {
+    if (res.ok) {
+      document.getElementById('formCard').style.display = 'none';
+      document.getElementById('progWrap').style.display = 'none';
+      var name = gv('childName');
+      document.getElementById('successName').textContent = name !== '—' ? name : '';
+      document.getElementById('successScreen').classList.add('show');
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    } else {
+      throw new Error('fail');
+    }
+  }).catch(function() {
+    btn.disabled = false;
+    btn.textContent = '✨ Envoyer ma commande !';
+    alert('Une erreur est survenue. Veuillez réessayer ou contacter info.racontemoi@gmail.com');
+  });
+}
+</script>
+</body>
+</html>

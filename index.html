@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raconte-Moi — Livres Personnalisés pour Enfants</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --purple:#6C3FD4;--purple-l:#EDE6FF;--purple-m:#B39DEB;
+  --yellow:#FFD93D;--yellow-l:#FFF8D6;
+  --teal:#14B8A6;--teal-l:#CCFBF1;
+  --coral:#FF6B6B;--coral-l:#FFE8E8;
+  --ink:#1A1040;--ink-m:#3D2E6B;--ink-s:#7B6FA0;
+  --white:#fff;--cream:#FAFAF7;--border:#EAE6F5;
+  --r:20px;--rs:12px;--rp:100px;
+  --shadow:0 6px 32px rgba(108,63,212,.12);
+  --shadow-l:0 16px 56px rgba(108,63,212,.18);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden}
+
+/* NAV */
+.nav{background:var(--white);border-bottom:2px solid var(--border);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:72px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(108,63,212,.07)}
+.nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-logo{width:44px;height:44px;background:var(--purple);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 14px rgba(108,63,212,.35)}
+.nav-name{font-family:'Baloo 2',cursive;font-weight:800;font-size:24px;color:var(--ink)}
+.nav-name span{color:var(--purple)}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-link{padding:8px 16px;border-radius:var(--rp);font-size:14px;font-weight:700;color:var(--ink-s);text-decoration:none;transition:all .18s}
+.nav-link:hover{color:var(--purple);background:var(--purple-l)}
+.nav-link.active{color:var(--purple);background:var(--purple-l)}
+.nav-cta{background:var(--purple)!important;color:var(--white)!important;box-shadow:0 4px 14px rgba(108,63,212,.3)}
+.nav-cta:hover{background:#5A30BC!important;transform:translateY(-1px)}
+@media(max-width:700px){.nav-links{display:none}.nav{padding:0 20px}}
+.nav-burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:40px;height:40px;background:none;border:none;cursor:pointer;padding:6px;border-radius:10px;transition:background .18s}
+.nav-burger:hover{background:var(--purple-l)}
+.nav-burger span{display:block;width:22px;height:2.5px;background:var(--ink);border-radius:2px;transition:all .25s}
+@media(max-width:700px){.nav-burger{display:flex}}
+.mobile-menu{display:none;position:fixed;inset:0;z-index:99;background:rgba(26,16,64,.45);backdrop-filter:blur(4px)}
+.mobile-menu.open{display:block}
+.mobile-menu-panel{position:absolute;top:0;right:0;width:260px;height:100%;background:var(--white);box-shadow:-8px 0 40px rgba(108,63,212,.15);display:flex;flex-direction:column;padding:24px 20px;gap:6px}
+.mobile-menu-close{align-self:flex-end;background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink-s);margin-bottom:10px;padding:4px}
+.mobile-menu-link{padding:12px 16px;border-radius:var(--rp);font-size:16px;font-weight:700;color:var(--ink);text-decoration:none;transition:all .18s}
+.mobile-menu-link:hover{color:var(--purple);background:var(--purple-l)}
+.mobile-menu-cta{margin-top:8px;text-align:center;background:var(--purple);color:var(--white)!important;box-shadow:0 4px 14px rgba(108,63,212,.3)}
+
+/* HERO */
+.hero-video-wrap{position:relative;overflow:hidden;min-height:560px;display:flex;align-items:center}
+.hero-video-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.hero-overlay{position:absolute;inset:0;background:rgba(15,8,40,0.58);z-index:1}
+.hero{position:relative;z-index:2;padding:90px 40px 80px;max-width:1200px;margin:0 auto;width:100%}
+@media(max-width:900px){.hero{padding:70px 24px 60px;text-align:center}}
+.hero-tag{display:inline-flex;align-items:center;gap:7px;background:rgba(255,217,61,.18);border:2px solid var(--yellow);color:var(--yellow);font-size:13px;font-weight:800;padding:7px 16px;border-radius:var(--rp);margin-bottom:22px}
+.hero h1{font-family:'Baloo 2',cursive;font-weight:800;font-size:clamp(38px,5vw,60px);color:var(--white);line-height:1.08;margin-bottom:20px;letter-spacing:-1px}
+.hero h1 .hl{color:var(--yellow);position:relative;display:inline-block}
+.hero h1 .hl::after{content:'';position:absolute;bottom:2px;left:-2px;right:-2px;height:10px;background:var(--purple);border-radius:5px;z-index:-1;opacity:.5}
+.hero-sub{font-size:18px;color:rgba(255,255,255,.82);line-height:1.65;font-weight:600;margin-bottom:36px;max-width:520px}
+@media(max-width:900px){.hero-sub{margin:0 auto 36px}}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+@media(max-width:900px){.hero-actions{justify-content:center}}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:15px 30px;border-radius:var(--rp);font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;cursor:pointer;border:none;text-decoration:none;transition:all .2s}
+.btn-primary{background:var(--purple);color:var(--white);box-shadow:0 5px 20px rgba(108,63,212,.32)}
+.btn-primary:hover{background:#5A30BC;transform:translateY(-2px);box-shadow:0 8px 28px rgba(108,63,212,.42)}
+.btn-secondary{background:rgba(255,255,255,.15);color:var(--white);border:2px solid rgba(255,255,255,.4);backdrop-filter:blur(4px)}
+.btn-secondary:hover{background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.7)}
+.hero-stats{display:flex;gap:32px;margin-top:44px;padding-top:32px;border-top:1px solid rgba(255,255,255,.2);flex-wrap:wrap}
+@media(max-width:900px){.hero-stats{justify-content:center}}
+.stat-num{font-family:'Baloo 2',cursive;font-size:30px;font-weight:800;color:var(--yellow);line-height:1;margin-bottom:2px}
+.stat-lbl{font-size:12px;font-weight:700;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.5px}
+
+@keyframes floatS{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-14px) rotate(15deg)}}
+
+/* WAVE */
+.wave{display:block;width:100%;line-height:0;background:transparent}
+.wave svg{display:block;width:100%}
+
+/* SECTIONS */
+section{padding:80px 40px}
+@media(max-width:700px){section{padding:60px 20px}}
+.inner{max-width:1100px;margin:0 auto}
+.sec-tag{display:inline-block;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--purple);background:var(--purple-l);padding:5px 14px;border-radius:var(--rp);margin-bottom:14px}
+.sec-title{font-family:'Baloo 2',cursive;font-weight:800;font-size:clamp(28px,4vw,42px);color:var(--ink);line-height:1.15;margin-bottom:14px;letter-spacing:-.5px}
+.sec-sub{font-size:17px;color:var(--ink-s);font-weight:600;line-height:1.6;max-width:520px}
+
+/* HOW IT WORKS */
+.how{background:var(--cream)}
+.how .head{text-align:center;margin-bottom:60px}
+.how .head .sec-sub{margin:0 auto}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative}
+.steps::before{content:'';position:absolute;top:44px;left:10%;right:10%;height:2px;background:repeating-linear-gradient(90deg,var(--purple-m) 0,var(--purple-m) 8px,transparent 8px,transparent 16px);z-index:0}
+@media(max-width:900px){.steps{grid-template-columns:repeat(2,1fr)}.steps::before{display:none}}
+@media(max-width:500px){.steps{grid-template-columns:1fr}}
+.step-card{background:var(--white);border-radius:var(--r);padding:32px 24px;text-align:center;border:2px solid var(--border);position:relative;z-index:1;transition:all .25s}
+.step-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:var(--purple-m)}
+.step-num{width:48px;height:48px;background:var(--purple);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Baloo 2',cursive;font-weight:800;font-size:18px;color:var(--white);margin:0 auto 16px;box-shadow:0 4px 14px rgba(108,63,212,.3)}
+.step-icon{font-size:40px;margin-bottom:14px;display:block}
+.step-card h3{font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;color:var(--ink);margin-bottom:8px}
+.step-card p{font-size:14px;color:var(--ink-s);font-weight:600;line-height:1.6}
+
+/* CATALOGUE PREVIEW */
+.cat-sec{background:var(--white)}
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px}
+.prod-card{background:var(--white);border:2px solid var(--border);border-radius:var(--r);overflow:hidden;transition:all .25s;cursor:pointer;text-decoration:none;color:inherit;display:flex;flex-direction:column}
+.prod-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:var(--purple-m)}
+.prod-thumb{height:190px;display:flex;align-items:center;justify-content:center;font-size:70px;position:relative}
+.prod-badge{position:absolute;top:12px;left:12px;padding:4px 10px;border-radius:var(--rp);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.badge-new{background:var(--coral);color:var(--white)}
+.badge-pop{background:var(--yellow);color:var(--ink)}
+.badge-gift{background:var(--teal);color:var(--ink)}
+.bg-purple{background:linear-gradient(135deg,var(--purple-l),#D4BFFF)}
+.bg-yellow{background:linear-gradient(135deg,var(--yellow-l),#FFE580)}
+.bg-coral{background:linear-gradient(135deg,var(--coral-l),#FFCFCF)}
+.bg-mint{background:linear-gradient(135deg,var(--teal-l),#B2F5F1)}
+.bg-mixed{background:linear-gradient(135deg,#E8F4FF,#D4EEFF)}
+.bg-rose{background:linear-gradient(135deg,#FFE4F0,#FFBBD8)}
+.prod-info{padding:18px;display:flex;flex-direction:column;flex:1}
+.prod-title{font-family:'Baloo 2',cursive;font-weight:800;font-size:15px;color:var(--ink);margin-bottom:4px}
+.prod-desc{font-size:13px;color:var(--ink-s);font-weight:600;line-height:1.5;margin-bottom:12px;flex:1}
+.prod-card{cursor:default}
+.prod-footer{display:flex;flex-direction:column;gap:8px}
+.btn-sm{padding:9px 14px;border-radius:var(--rp);background:var(--purple);color:var(--white);font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;border:none;cursor:pointer;transition:all .18s;text-decoration:none;display:flex;align-items:center;justify-content:center;width:100%}
+.btn-sm:hover{background:#5A30BC;transform:translateY(-1px)}
+.btn-sm-outline{padding:9px 14px;border-radius:var(--rp);background:var(--white);color:var(--purple);font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;border:2px solid var(--purple);cursor:pointer;transition:all .18s;text-decoration:none;display:flex;align-items:center;justify-content:center;width:100%}
+.btn-sm-outline:hover{background:var(--purple);color:var(--white);transform:translateY(-1px)}
+.prod-card.custom-card{border:2px solid transparent;background:linear-gradient(var(--white),var(--white)) padding-box,linear-gradient(135deg,var(--purple),var(--coral),var(--yellow)) border-box}
+
+/* REVIEWS */
+.reviews-sec{background:var(--ink);padding:80px 40px}
+.reviews-sec .sec-tag{background:rgba(255,255,255,.1);color:var(--yellow)}
+.reviews-sec .sec-title{color:var(--white)}
+.rev-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:48px;flex-wrap:wrap;gap:16px}
+.stars{color:var(--yellow);font-size:18px;letter-spacing:2px;margin-bottom:8px;display:block}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:900px){.reviews-grid{grid-template-columns:1fr}}
+.rev-card{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:var(--r);padding:28px;transition:all .25s}
+.rev-card:hover{background:rgba(255,255,255,.1);transform:translateY(-4px)}
+.rev-text{font-size:15px;color:rgba(255,255,255,.85);font-weight:600;line-height:1.7;margin-bottom:20px;font-style:italic}
+.rev-author{display:flex;align-items:center;gap:12px}
+.rev-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.av1{background:var(--yellow)}.av2{background:var(--coral)}.av3{background:var(--teal-l)}
+.rev-name{font-weight:800;font-size:14px;color:var(--white)}
+.rev-meta{font-size:12px;color:rgba(255,255,255,.4);font-weight:600}
+
+/* CTA BAND */
+.cta-band{background:var(--purple);padding:80px 40px;text-align:center;position:relative;overflow:hidden}
+.cta-band::before{content:'✦  ✧  ✦  ✧  ✦  ✧  ✦  ✧  ✦';position:absolute;top:20px;left:0;right:0;text-align:center;font-size:14px;color:rgba(255,255,255,.1);letter-spacing:8px;pointer-events:none}
+.cta-band .inner{position:relative;z-index:1;max-width:680px}
+.cta-emoji{font-size:64px;display:block;margin-bottom:20px;animation:bob 3s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.cta-title{font-family:'Baloo 2',cursive;font-weight:800;font-size:clamp(28px,4vw,46px);color:var(--white);line-height:1.15;margin-bottom:16px;letter-spacing:-.5px}
+.cta-sub{font-size:18px;color:rgba(255,255,255,.8);font-weight:600;line-height:1.6;margin-bottom:36px}
+.btn-white{background:var(--white);color:var(--purple);box-shadow:0 6px 24px rgba(0,0,0,.2)}
+.btn-white:hover{background:var(--yellow);color:var(--ink);transform:translateY(-2px)}
+.btn-outline-w{background:transparent;color:var(--white);border:2px solid rgba(255,255,255,.4)}
+.btn-outline-w:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.7)}
+
+/* FOOTER */
+footer{background:var(--ink);border-top:1px solid rgba(255,255,255,.08);padding:60px 40px 32px}
+.footer-inner{max-width:1100px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+@media(max-width:800px){.footer-top{grid-template-columns:1fr 1fr}}
+.footer-logo{font-family:'Baloo 2',cursive;font-size:24px;font-weight:800;color:var(--white);margin-bottom:10px}
+.footer-logo span{color:var(--yellow)}
+.footer-tag{font-size:14px;color:rgba(255,255,255,.4);font-weight:600;line-height:1.6;max-width:220px}
+.footer-col h4{font-family:'Baloo 2',cursive;font-size:13px;font-weight:700;color:var(--white);margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px}
+.footer-col a{display:block;font-size:14px;color:rgba(255,255,255,.4);font-weight:600;text-decoration:none;margin-bottom:10px;transition:color .2s}
+.footer-col a:hover{color:var(--yellow)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:28px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:12px}
+.footer-copy{font-size:13px;color:rgba(255,255,255,.3);font-weight:600}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* DOODLES */
+.doodle{position:fixed;font-size:26px;opacity:.07;pointer-events:none;z-index:0;animation:floatD 6s ease-in-out infinite}
+.d1{top:12%;left:3%;animation-delay:0s}
+.d2{top:40%;right:3%;animation-delay:1.5s}
+.d3{bottom:25%;left:4%;animation-delay:3s}
+.d4{bottom:12%;right:5%;animation-delay:.8s}
+@keyframes floatD{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-12px) rotate(8deg)}}
+</style>
+</head>
+<body>
+
+<div class="doodle d1">⭐</div>
+<div class="doodle d2">🌈</div>
+<div class="doodle d3">🎈</div>
+<div class="doodle d4">✨</div>
+
+<nav class="nav">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-logo">📖</div>
+    <div class="nav-name">Raconte<span>-Moi</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link active">Accueil</a>
+    <a href="catalogue.html" class="nav-link">Catalogue</a>
+    <a href="commande.html" class="nav-link nav-cta">Commander ✨</a>
+  </div>
+  <button class="nav-burger" id="burgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-panel">
+    <button class="mobile-menu-close" id="menuClose">✕</button>
+    <a href="index.html" class="mobile-menu-link">Accueil</a>
+    <a href="catalogue.html" class="mobile-menu-link">Catalogue</a>
+    <a href="commande.html" class="mobile-menu-link mobile-menu-cta">Commander ✨</a>
+  </div>
+</div>
+
+<div class="hero-video-wrap">
+  <video class="hero-video-bg" autoplay muted loop playsinline>
+    <source src="videos/kling.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero">
+    <div class="reveal">
+      <div class="hero-tag">✨ 100% Personnalisé</div>
+      <h1>Des histoires créées<br><span class="hl">pour eux</span></h1>
+      <p class="hero-sub">Des livres illustrés sur mesure où votre enfant est le héros. Un cadeau unique qu'ils n'oublieront jamais. 🌟</p>
+      <div class="hero-actions">
+        <a href="commande.html" class="btn btn-primary">Créer notre histoire →</a>
+        <a href="catalogue.html" class="btn btn-secondary">Voir le catalogue</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="stat-num">+100</div><div class="stat-lbl">Histoires créées</div></div>
+        <div><div class="stat-num">98%</div><div class="stat-lbl">Clients satisfaits</div></div>
+        <div><div class="stat-num">3–5j</div><div class="stat-lbl">Délai de création</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wave"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:60px"><path d="M0,30 C360,60 1080,0 1440,30 L1440,0 L0,0 Z" fill="rgba(15,8,40,0.58)"/><path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#FAFAF7"/></svg></div>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="inner">
+    <div class="head reveal">
+      <div class="sec-tag">Simple & Rapide</div>
+      <h2 class="sec-title">Comment ça marche ?</h2>
+      <p class="sec-sub">Créer un livre personnalisé n'a jamais été aussi simple.</p>
+    </div>
+    <div class="steps">
+      <div class="step-card reveal"><div class="step-num">1</div><span class="step-icon">📋</span><h3>Remplissez le formulaire</h3><p>Parlez-moi de votre enfant — son nom, ses passions, ses personnages préférés.</p></div>
+      <div class="step-card reveal"><div class="step-num">2</div><span class="step-icon">✍️</span><h3>Je crée votre histoire</h3><p>Je rédige une histoire unique où votre enfant est le vrai héros de l'aventure.</p></div>
+      <div class="step-card reveal"><div class="step-num">3</div><span class="step-icon">✅</span><h3>Vous confirmez</h3><p>Relisez le résumé de votre commande et confirmez les détails — on s'occupe du reste !</p></div>
+      <div class="step-card reveal"><div class="step-num">4</div><span class="step-icon">📬</span><h3>Vous recevez votre livre</h3><p>Le livre final est livré directement chez vous, prêt à être offert avec amour.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CATALOGUE PREVIEW -->
+<section class="cat-sec" id="catalogue">
+  <div class="inner">
+    <div class="reveal" style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;flex-wrap:wrap;gap:16px">
+      <div><div class="sec-tag">Nos Créations</div><h2 class="sec-title">Explorez le catalogue</h2></div>
+      <a href="catalogue.html" class="btn btn-secondary">Voir tout →</a>
+    </div>
+    <div class="products">
+
+      <!-- Sofia — Lanterne -->
+      <div class="prod-card reveal">
+        <div class="prod-thumb bg-purple" style="position:relative;overflow:hidden;">
+          <div class="prod-badge badge-pop">Exemple réel</div>
+          <img src="images/book-sofia-lanterne.jpg" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+        </div>
+        <div class="prod-info">
+          <div class="prod-title">Sofia et la Lanterne du Courage</div>
+          <div class="prod-desc">Une histoire de courage, de famille et de forêt enchantée.</div>
+          <div class="prod-footer">
+            <a href="catalogue.html" class="btn-sm">📖 Lire un extrait</a>
+            <a href="commande-directe.html?book=lanterne" class="btn-sm-outline">Commander</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sofia — Hibou -->
+      <div class="prod-card reveal">
+        <div class="prod-thumb bg-mint" style="position:relative;overflow:hidden;">
+          <div class="prod-badge badge-new">Exemple réel</div>
+          <img src="images/book-sofia-hibou.jpg" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+        </div>
+        <div class="prod-info">
+          <div class="prod-title">Sofia et l'Hibou Vert</div>
+          <div class="prod-desc">Une histoire d'amitié, d'entraide et de mots magiques.</div>
+          <div class="prod-footer">
+            <a href="catalogue.html" class="btn-sm">📖 Lire un extrait</a>
+            <a href="commande-directe.html?book=hibou" class="btn-sm-outline">Commander</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Adam -->
+      <div class="prod-card reveal">
+        <div class="prod-thumb bg-coral" style="position:relative;overflow:hidden;">
+          <img src="images/book-adam.jpg" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+        </div>
+        <div class="prod-info">
+          <div class="prod-title">Adam et la Fée Magique</div>
+          <div class="prod-desc">Une histoire de magie, de famille et de courage inattendu.</div>
+          <div class="prod-footer">
+            <a href="catalogue.html" class="btn-sm">📖 Lire un extrait</a>
+            <a href="commande.html" class="btn-sm-outline">Commander</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Personnalisée -->
+      <div class="prod-card custom-card reveal" onclick="window.location='commande.html'" style="cursor:pointer;">
+        <div class="prod-thumb" style="background:linear-gradient(135deg,#f3e8ff,#ffe8f0,#fff8d6);position:relative;">
+          <div class="prod-badge" style="position:absolute;top:12px;left:12px;background:linear-gradient(135deg,var(--purple),var(--coral));color:white;padding:4px 10px;border-radius:100px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;">✨ Sur mesure</div>
+          🌟
+        </div>
+        <div class="prod-info">
+          <div class="prod-title">Votre Histoire Unique</div>
+          <div class="prod-desc">Parlez-nous de votre enfant — ses passions, son caractère, ses rêves — et nous créons une histoire 100% taillée pour lui.</div>
+          <div class="prod-footer">
+            <a href="commande.html" class="btn-sm" style="background:linear-gradient(135deg,var(--purple),var(--coral));" onclick="event.stopPropagation()">Créer mon histoire →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews-sec" id="reviews">
+  <div class="inner">
+    <div class="rev-head reveal">
+      <div><div class="sec-tag">Ils nous font confiance</div><h2 class="sec-title">Ce que disent les parents</h2></div>
+      <div style="text-align:right"><div style="font-family:'Baloo 2',cursive;font-size:40px;font-weight:800;color:var(--yellow);line-height:1">4.9</div><span class="stars">★★★★★</span><div style="font-size:13px;color:rgba(255,255,255,.4);font-weight:600">Basé sur 127 avis</div></div>
+    </div>
+    <div class="reviews-grid">
+      <div class="rev-card reveal"><span class="stars">★★★★★</span><p class="rev-text">"Ma fille a pleuré de joie en voyant son prénom dans le livre ! L'histoire était parfaite, pleine de détails sur sa personnalité."</p><div class="rev-author"><div class="rev-avatar av1">👩</div><div><div class="rev-name">Fatine</div><div class="rev-meta">Maman de Yousra, 5 ans</div></div></div></div>
+      <div class="rev-card reveal"><span class="stars">★★★★★</span><p class="rev-text">"Commandé pour l'anniversaire de mon neveu. Il lit l'histoire tous les soirs avant de dormir. La qualité est extraordinaire !"</p><div class="rev-author"><div class="rev-avatar av2">👨</div><div><div class="rev-name">Karim B.</div><div class="rev-meta">Oncle de Youssef, 7 ans</div></div></div></div>
+      <div class="rev-card reveal"><span class="stars">★★★★★</span><p class="rev-text">"L'équipe a été à l'écoute, a intégré tous mes souhaits. Mon fils ne se sépare plus de son livre !"</p><div class="rev-author"><div class="rev-avatar av3">👩</div><div><div class="rev-name">Amina K.</div><div class="rev-meta">Maman de Rayan, 6 ans</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band">
+  <div class="inner reveal">
+    <span class="cta-emoji">📖</span>
+    <h2 class="cta-title">Prêt à créer quelque chose de magique ?</h2>
+    <p class="cta-sub">Chaque enfant mérite une histoire qui lui ressemble. Commencez en 5 minutes.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="commande.html" class="btn btn-white">Créer notre histoire ✨</a>
+      <a href="catalogue.html" class="btn btn-outline-w">Voir le catalogue</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div><div class="footer-logo">Raconte<span>-Moi</span></div><p class="footer-tag">Des histoires personnalisées qui font rêver les enfants et sourire les parents.</p></div>
+      <div class="footer-col"><h4>Navigation</h4><a href="index.html">Accueil</a><a href="catalogue.html">Catalogue</a><a href="commande.html">Commander</a></div>
+      <div class="footer-col"><h4>Produits</h4><a href="commande.html">Histoires sur mesure</a><a href="commande.html">Packs Stickers</a><a href="commande.html">Coffrets Cadeaux</a></div>
+      <div class="footer-col"><h4>Contact</h4><a href="mailto:info.racontemoi@gmail.com">info.racontemoi@gmail.com</a><a href="#">Instagram</a></div>
+    </div>
+    <div class="footer-bottom"><div class="footer-copy">© 2026 Raconte-Moi. Tous droits réservés.</div></div>
+  </div>
+</footer>
+
+<script>
+var burger=document.getElementById('burgerBtn'),menu=document.getElementById('mobileMenu'),menuClose=document.getElementById('menuClose');
+burger.addEventListener('click',function(){menu.classList.add('open')});
+menuClose.addEventListener('click',function(){menu.classList.remove('open')});
+menu.addEventListener('click',function(e){if(e.target===menu)menu.classList.remove('open')});
+
+var obs = new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
+window.addEventListener('load',function(){document.querySelectorAll('.reveal:not(.visible)').forEach(function(el){var r=el.getBoundingClientRect();if(r.top<window.innerHeight)el.classList.add('visible')})});
+</script>
+</body>
+</html>
