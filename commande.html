@@ -439,17 +439,6 @@ document.querySelectorAll('#themeChips .chip, #settingChips .chip').forEach(func
   });
 });
 
-// Single-select name chips
-document.getElementById('nc0').addEventListener('click', function() { pickName(0); });
-document.getElementById('nc1').addEventListener('click', function() { pickName(1); });
-document.getElementById('nc2').addEventListener('click', function() { pickName(2); });
-
-function pickName(idx) {
-  for (var i = 0; i < 3; i++) {
-    document.getElementById('nc' + i).classList.remove('on');
-  }
-  document.getElementById('nc' + idx).classList.add('on');
-}
 
 // Add character
 document.getElementById('addCharBtn').addEventListener('click', function() {
@@ -582,14 +571,6 @@ function getSettings() {
   return r.join(', ') || '—';
 }
 
-function getNameChoice() {
-  for (var i = 0; i < 3; i++) {
-    if (document.getElementById('nc' + i).classList.contains('on')) {
-      return document.getElementById('nc' + i).textContent.trim();
-    }
-  }
-  return '—';
-}
 
 function buildReview() {
   var lenV = document.getElementById('lenSlider').value;
@@ -631,17 +612,20 @@ function submitForm() {
     'Heros nom': gv('heroName'),
     'Heros age': gv('heroAge'),
     'Heros description': gv('heroDesc'),
-    'Prenom dans histoire': getNameChoice(),
-    'Surnom': gv('nickname'),
     'Nombre de photos': files.length > 0 ? files.length + ' photo(s)' : 'Aucune',
     'Notes photos': gv('photoNotes')
   };
 
-  fetch('https://formspree.io/f/mlgpajbq', {
+  var controller = new AbortController();
+  var timeout = setTimeout(function() { controller.abort(); }, 10000);
+
+  fetch('https://formspree.io/f/xdapaqpw', {
     method: 'POST',
     headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
+    signal: controller.signal
   }).then(function(res) {
+    clearTimeout(timeout);
     if (res.ok) {
       document.getElementById('formCard').style.display = 'none';
       document.getElementById('progWrap').style.display = 'none';
