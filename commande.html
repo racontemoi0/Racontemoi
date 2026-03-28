@@ -626,20 +626,23 @@ function submitForm() {
     signal: controller.signal
   }).then(function(res) {
     clearTimeout(timeout);
-    if (res.ok) {
-      document.getElementById('formCard').style.display = 'none';
-      document.getElementById('progWrap').style.display = 'none';
-      var name = gv('childName');
-      document.getElementById('successName').textContent = name !== '—' ? name : '';
-      document.getElementById('successScreen').classList.add('show');
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    } else {
-      throw new Error('fail');
-    }
-  }).catch(function() {
+    return res.json().then(function(data) {
+      if (res.ok && data.ok) {
+        document.getElementById('formCard').style.display = 'none';
+        document.getElementById('progWrap').style.display = 'none';
+        var name = gv('childName');
+        document.getElementById('successName').textContent = name !== '—' ? name : '';
+        document.getElementById('successScreen').classList.add('show');
+        window.scrollTo({top: 0, behavior: 'smooth'});
+      } else {
+        throw new Error(JSON.stringify(data));
+      }
+    });
+  }).catch(function(err) {
+    clearTimeout(timeout);
     btn.disabled = false;
     btn.textContent = '✨ Envoyer ma commande !';
-    alert('Une erreur est survenue. Veuillez réessayer ou contacter info.racontemoi@gmail.com');
+    alert('Erreur : ' + (err && err.message ? err.message : err));
   });
 }
 </script>
